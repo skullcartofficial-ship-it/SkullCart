@@ -1,0 +1,364 @@
+.signup-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f5f5;
+}
+
+.signup-card {
+  width: 420px;
+  background: white;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.signup-card h2 {
+  margin-bottom: 20px;
+}
+
+.signup-card input,
+.signup-card select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.name-row {
+  display: flex;
+  gap: 10px;
+}
+
+.phone-row {
+  display: flex;
+  gap: 10px;
+}
+
+.signup-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.signup-btn:hover {
+  background: #222;
+}
+.instagram-footer {
+  background: #000;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  font-size: 16px;
+}
+
+.instagram-footer span {
+  color: #ff3b5c;
+  font-weight: bold;
+  cursor: pointer;
+}
+.shop-page {
+  padding: 40px;
+  background: #f2f4f8;
+}
+
+/* HEADER */
+
+.shop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.icons span {
+  font-size: 22px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.cart {
+  position: relative;
+}
+
+.cart-count {
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+/* SEARCH */
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 350px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* CATEGORIES */
+
+.categories {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.categories button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: #e6e8ec;
+  cursor: pointer;
+}
+
+.categories .active {
+  background: #2f6fed;
+  color: white;
+}
+
+/* PRODUCTS */
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.product-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+}
+
+.product-card button {
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: none;
+  background: #2f6fed;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.signup-card {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.signup-card h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 28px;
+}
+
+.name-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.name-row input {
+  flex: 1;
+}
+
+.signup-card input,
+.signup-card select {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.signup-card input:focus,
+.signup-card select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.phone-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.phone-row select {
+  width: 120px;
+  margin-bottom: 0;
+}
+
+.phone-row input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 14px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.signup-btn:hover:not(:disabled) {
+  background: #5a67d8;
+}
+
+.signup-btn:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+}
+
+.login-link a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .signup-card {
+    padding: 30px 20px;
+  }
+
+  .name-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .phone-row {
+    flex-direction: column;
+  }
+
+  .phone-row select {
+    width: 100%;
+  }
+}
+/* Add to your existing signup.css */
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #666;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background: #ddd;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.google-signup-btn {
+  width: 100%;
+  padding: 12px;
+  background: white;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s;
+}
+
+.google-signup-btn:hover:not(:disabled) {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.google-signup-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.google-signup-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
