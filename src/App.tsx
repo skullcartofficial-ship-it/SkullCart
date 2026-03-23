@@ -203,16 +203,45 @@ function Home() {
       </section>
 
       <footer className="footer">
-        <p>
-          Follow us on Instagram:{" "}
-          <a
-            href="https://instagram.com/skullcartofficial"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            @skullcartofficial
-          </a>
-        </p>
+        <div className="footer-content">
+          <div className="footer-section about">
+            <h3>About Skullcart</h3>
+            <p>
+              Smart tech at smart prices. Innovative, affordable gadgets for
+              everyday life.
+            </p>
+          </div>
+          <div className="footer-section founder">
+            <h3>CEO & Founder</h3>
+            <p>Manohar Reddy.G</p>
+            <p className="founder-title">Tech enthusiast & innovator</p>
+          </div>
+          <div className="footer-section social">
+            <h3>Social Media</h3>
+            <a
+              href="https://instagram.com/skullcartofficial"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="instagram-link"
+            >
+              📷 @skullcartofficial
+            </a>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>
+            &copy; {new Date().getFullYear()} Skullcart. All rights reserved.
+            <a
+              href="https://instagram.com/skullcartofficial"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", marginLeft: "8px" }}
+              aria-label="Instagram"
+            >
+              <i className="fab fa-instagram"></i>
+            </a>
+          </p>
+        </div>
       </footer>
     </div>
   );
