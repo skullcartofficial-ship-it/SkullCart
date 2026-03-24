@@ -22,6 +22,7 @@ export default function Cart() {
 
   const loadCart = () => {
     const items = getCart();
+    console.log("Cart items loaded:", JSON.stringify(items, null, 2)); // Debug log
     setCartItems(items);
   };
 
@@ -94,17 +95,20 @@ export default function Cart() {
                       <div className="cart-item-product">
                         <img
                           src={item.image || `/${item.id}.jpg`}
-                          alt={item.title}
+                          alt={item.title || "Product"}
                           className="cart-item-image"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src =
-                              "/placeholder.jpg";
+                              "https://via.placeholder.com/100x100?text=Product";
                           }}
                         />
                         <div className="cart-item-info">
-                          <h3>{item.title}</h3>
-                          <p className="cart-item-price">
-                            ₹{item.price.toFixed(2)}
+                          {/* PRODUCT TITLE - MAKE SURE THIS DISPLAYS */}
+                          <h3 className="product-title">
+                            {item.title || "Product Name"}
+                          </h3>
+                          <p className="product-price">
+                            ₹{item.price?.toFixed(2) || "0.00"} each
                           </p>
                           {item.originalPrice &&
                             item.originalPrice > item.price && (
@@ -154,7 +158,7 @@ export default function Cart() {
                 </div>
               </div>
 
-              {/* Order Summary with Price Breakdown */}
+              {/* Order Summary */}
               <div className="order-summary">
                 <h2>Order Summary</h2>
 
@@ -164,7 +168,7 @@ export default function Cart() {
                     {cartItems.map((item) => (
                       <div key={item.id} className="summary-item">
                         <span className="item-name">
-                          {item.title} × {item.quantity}
+                          {item.title || "Product"} × {item.quantity}
                         </span>
                         <span className="item-price">
                           ₹{(item.price * item.quantity).toFixed(2)}

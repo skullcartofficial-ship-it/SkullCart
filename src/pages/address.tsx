@@ -15,6 +15,7 @@ export default function Address() {
     name: "",
     countryCode: "+91",
     phone: "",
+    doorNo: "",
     street: "",
     city: "",
     pincode: "",
@@ -36,13 +37,11 @@ export default function Address() {
     console.log("checkoutTotal from localStorage:", checkoutTotal);
 
     if (checkoutCart && checkoutCart !== "[]") {
-      // Use checkoutCart data
       const parsedCart = JSON.parse(checkoutCart);
       setCartItems(parsedCart);
       setTotal(parseFloat(checkoutTotal || "0"));
       console.log("✅ Loaded from checkoutCart:", parsedCart.length, "items");
     } else {
-      // Fallback to regular cart
       const regularCart = JSON.parse(localStorage.getItem("cart") || "[]");
       console.log("Regular cart from localStorage:", regularCart);
 
@@ -88,6 +87,12 @@ export default function Address() {
       return;
     }
 
+    // Door No validation
+    if (!form.doorNo.trim()) {
+      alert("Please enter your door/flat number");
+      return;
+    }
+
     // Street validation
     if (!form.street.trim()) {
       alert("Please enter your street address");
@@ -115,6 +120,7 @@ export default function Address() {
       name: "",
       countryCode: "+91",
       phone: "",
+      doorNo: "",
       street: "",
       city: "",
       pincode: "",
@@ -129,7 +135,6 @@ export default function Address() {
     setAddresses(updated);
     localStorage.setItem("addresses", JSON.stringify(updated));
 
-    // Reset selected if the selected address was deleted
     if (selected === index) {
       setSelected(null);
     } else if (selected !== null && selected > index) {
@@ -156,20 +161,17 @@ export default function Address() {
 
     const selectedAddress = addresses[selected];
 
-    // Format customer details for payment page
     const customerDetails = {
       name: selectedAddress.name,
       phone: selectedAddress.phone,
-      email: "", // Can add email field if needed
-      address: `${selectedAddress.street}, ${selectedAddress.city} - ${selectedAddress.pincode}`,
+      email: "",
+      address: `${selectedAddress.doorNo}, ${selectedAddress.street}, ${selectedAddress.city} - ${selectedAddress.pincode}`,
     };
 
-    // Save customer details and cart data for payment page
     localStorage.setItem("customerDetails", JSON.stringify(customerDetails));
     localStorage.setItem("paymentCart", JSON.stringify(cartItems));
     localStorage.setItem("paymentTotal", total.toString());
 
-    // Navigate to payment page
     navigate("/payment");
   };
 
@@ -212,7 +214,9 @@ export default function Address() {
               ✕
             </button>
             <h3>{addr.name}</h3>
-            <p>{addr.street}</p>
+            <p>
+              {addr.doorNo}, {addr.street}
+            </p>
             <p>{addr.city}</p>
             <p>{addr.pincode}</p>
             <p>
@@ -248,6 +252,12 @@ export default function Address() {
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
           />
         </div>
+
+        <input
+          placeholder="Door No / Flat No *"
+          value={form.doorNo}
+          onChange={(e) => setForm({ ...form, doorNo: e.target.value })}
+        />
 
         <input
           placeholder="Street Address *"

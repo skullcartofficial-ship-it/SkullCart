@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
 import "./shop.css";
 import { getCart, addToCart as addItemToCart, CartItem } from "../cart";
 import Navbar from "../components/Navbar";
@@ -208,7 +208,7 @@ const productList: Product[] = [
 ];
 
 export default function Shop() {
-  const navigate = useNavigate(); // Add this line
+  const navigate = useNavigate();
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -230,21 +230,32 @@ export default function Shop() {
     <div className="shop-page">
       <Navbar />
 
-      {/* Back Button - Add this section */}
+      {/* Back Button */}
       <div className="back-button-container">
         <button className="back-to-home-btn" onClick={() => navigate("/")}>
           ← Home
         </button>
       </div>
 
-      <div className="search-bar">
-        <input
-          placeholder="Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      {/* Centered Search Bar */}
+      <div className="search-bar-container">
+        <div className="search-bar">
+          <span className="search-icon"></span>
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {search && (
+            <button className="clear-search" onClick={() => setSearch("")}>
+              ✕
+            </button>
+          )}
+        </div>
       </div>
 
+      {/* Categories */}
       <div className="categories">
         {["All", "Laptops", "Wearables", "Accessories"].map((c) => (
           <button
@@ -257,6 +268,7 @@ export default function Shop() {
         ))}
       </div>
 
+      {/* Products Grid */}
       <div className="products">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (

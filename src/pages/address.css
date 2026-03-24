@@ -283,3 +283,293 @@
 .phone-field input {
   flex: 1;
 }
+/* ============================================================
+   ADDRESS PAGE — Mobile-first CSS
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+/* ---------- Page shell ---------- */
+.address-page {
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 20px 16px 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.address-page h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+.address-page h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px;
+}
+
+/* ---------- Loading ---------- */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+/* ---------- Cart warning ---------- */
+.cart-warning {
+  background: #fef3c7;
+  border: 1px solid #fde047;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.cart-warning p {
+  margin: 0 0 10px;
+  font-size: 0.875rem;
+  color: #92400e;
+  font-weight: 500;
+}
+.shop-now-btn {
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- Saved address cards ---------- */
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.address-card {
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px 44px 14px 16px; /* right padding for delete btn */
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.address-card.active {
+  border-color: #111827;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+.address-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.address-card p {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  transition: background 0.12s;
+}
+.delete-btn:hover {
+  background: #fecaca;
+}
+
+/* ---------- Add New Address form ---------- */
+.address-form {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Every input & select fills full width */
+.address-form input,
+.address-form select {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #111827;
+  background: #f9fafb;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.address-form input::placeholder {
+  color: #9ca3af;
+}
+
+.address-form input:focus,
+.address-form select:focus {
+  border-color: #111827;
+  background: #fff;
+}
+
+/* Phone row: select + input side by side */
+.phone-field {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.phone-field select {
+  flex: 0 0 auto;
+  width: 130px; /* fixed width for country picker */
+  padding-right: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.phone-field input {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Save Address button inside form */
+.address-form button {
+  width: 100%;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+.address-form button:hover {
+  background: #1f2937;
+}
+
+/* ---------- Continue to Payment button ---------- */
+.continue-btn {
+  display: block;
+  width: 100%;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+.continue-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* ---------- Order Summary mini ---------- */
+.order-summary-mini {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.order-summary-mini h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 12px;
+}
+
+.order-summary-mini > p {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 0 0 8px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid #f3f4f6;
+}
+
+.summary-item span:first-child {
+  font-size: 0.85rem;
+  color: #374151;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.summary-item span:last-child {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+.total-amount {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 12px 0 0 !important;
+  padding-top: 10px;
+  border-top: 2px solid #e5e7eb;
+}
+
+/* ---------- Tiny screens (< 360px) ---------- */
+@media (max-width: 360px) {
+  .address-page {
+    padding: 16px 12px 32px;
+  }
+  .phone-field select {
+    width: 110px;
+  }
+}

@@ -413,3 +413,441 @@
     flex-direction: column;
   }
 }
+/* ============================================================
+   PAYMENT PAGE — Mobile-first CSS
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+/* ---------- Page shell ---------- */
+.payment-container {
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 20px 16px 48px;
+  max-width: 600px;
+  margin: 0 auto;
+
+  /* MOBILE: single column stack */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* DESKTOP: side-by-side */
+@media (min-width: 900px) {
+  .payment-container {
+    max-width: 1000px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 32px 24px 48px;
+  }
+
+  .payment-methods {
+    flex: 1 1 0;
+  }
+  .order-summary {
+    flex: 0 0 320px;
+    position: sticky;
+    top: 24px;
+  }
+}
+
+/* ---------- Shared card style ---------- */
+.payment-methods,
+.order-summary {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+/* ---------- Section headings ---------- */
+.payment-methods h2,
+.order-summary h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 14px;
+}
+
+/* ---------- Customer info block ---------- */
+.customer-info {
+  background: #f9fafb !important;
+  border: 1.5px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  margin-bottom: 20px !important;
+}
+
+.customer-info p {
+  font-size: 0.875rem;
+  color: #374151;
+  margin: 0 0 6px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.customer-info p:last-child {
+  margin-bottom: 0;
+}
+
+.customer-info strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* ---------- Payment method divider ---------- */
+.payment-methods > h2:nth-of-type(2) {
+  margin-top: 4px;
+}
+
+/* ---------- Radio options ---------- */
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #111827;
+  transition: border-color 0.15s, background 0.15s;
+  white-space: nowrap; /* keeps label on one line */
+  user-select: none;
+}
+
+.payment-option:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
+
+.payment-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #111827;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* ---------- Card / UPI forms ---------- */
+.card-form,
+.upi-form {
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-form input,
+.upi-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.card-form input::placeholder,
+.upi-form input::placeholder {
+  color: #9ca3af;
+}
+
+.card-form input:focus,
+.upi-form input:focus {
+  border-color: #111827;
+}
+
+/* Expiry + CVV row */
+.card-row {
+  display: flex;
+  gap: 10px;
+}
+
+.card-row input {
+  flex: 1 1 0;
+}
+
+/* ---------- Place Order button ---------- */
+.pay-btn {
+  display: block;
+  width: 100%;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+
+.pay-btn:hover {
+  background: #1f2937;
+  transform: translateY(-1px);
+}
+
+/* ---------- Order Summary ---------- */
+.buy-now-badge {
+  background: #ef4444 !important;
+  color: #fff !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  display: inline-block !important;
+  margin-bottom: 12px !important;
+}
+
+.order-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  gap: 8px !important;
+  padding: 8px 0 !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  margin-bottom: 0 !important;
+}
+
+.order-item p:first-child {
+  font-size: 0.875rem !important;
+  color: #374151 !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin: 0 !important;
+}
+
+.order-item p:last-child {
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  margin: 0 !important;
+}
+
+.order-summary hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 14px 0 !important;
+}
+
+.order-summary h3 {
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  color: #111827 !important;
+  margin: 0 !important;
+}
+
+/* Notification info box */
+.order-summary > div[style] {
+  margin-top: 14px !important;
+  background: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 10px !important;
+  padding: 12px !important;
+  font-size: 0.8rem !important;
+  color: #6b7280 !important;
+}
+
+.order-summary > div[style] p {
+  margin: 0 0 6px !important;
+  line-height: 1.4 !important;
+}
+
+.order-summary > div[style] p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* ---------- Success page ---------- */
+.order-success-page {
+  min-height: 100vh;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.success-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 20px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Animated checkmark */
+.checkmark-animation {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+}
+
+.checkmark {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  stroke: #22c55e;
+  stroke-width: 2;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-circle {
+  stroke: #22c55e;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  stroke: #22c55e;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.success-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 8px;
+}
+
+.success-message {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0 0 20px;
+}
+
+/* Order details summary on success */
+.order-details-summary {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.order-details-summary p {
+  font-size: 0.85rem;
+  color: #374151;
+  margin: 0 0 8px;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.order-details-summary p:last-child {
+  margin-bottom: 0;
+}
+
+.order-details-summary strong {
+  color: #111827;
+}
+
+/* WhatsApp section */
+.whatsapp-section {
+  margin-bottom: 20px;
+}
+
+.whatsapp-instruction {
+  font-size: 0.85rem;
+  color: #374151;
+  margin: 0 0 6px;
+}
+
+.whatsapp-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s;
+}
+
+.whatsapp-share-btn:hover {
+  background: #1ebe57;
+}
+
+/* Success action buttons */
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.view-orders-btn,
+.continue-shopping-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s;
+}
+
+.view-orders-btn {
+  background: #111827;
+  color: #fff;
+}
+.view-orders-btn:hover {
+  background: #1f2937;
+}
+
+.continue-shopping-btn {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+}
+.continue-shopping-btn:hover {
+  background: #e5e7eb;
+}
+
+/* ---------- Tiny screens ---------- */
+@media (max-width: 360px) {
+  .payment-container {
+    padding: 14px 10px 40px;
+  }
+  .payment-methods,
+  .order-summary {
+    padding: 16px 12px;
+  }
+}
