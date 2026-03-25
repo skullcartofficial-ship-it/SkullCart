@@ -156,7 +156,8 @@ export default function Navbar() {
         <nav className="desktop-menu">
           <a onClick={() => navigate("/shop")}>Shop</a>
           <a onClick={() => navigate("/deals")}>Deals</a>
-          <a onClick={() => navigate("/about")}>About Us</a>
+          <a onClick={() => navigate("/")}>About Us</a>{" "}
+          {/* Updated: navigates to homepage */}
           <a onClick={() => navigate("/blog")}>Blog</a>
         </nav>
 
@@ -267,11 +268,10 @@ export default function Navbar() {
         <a className="drawer-link" onClick={() => goTo("/deals")}>
           Deals
         </a>
-        <a className="drawer-link" onClick={() => goTo("/about")}>
+        <a className="drawer-link" onClick={() => goTo("/")}>
+          {" "}
+          {/* Updated: navigates to homepage */}
           About Us
-        </a>
-        <a className="drawer-link" onClick={() => goTo("/blog")}>
-          Blog
         </a>
 
         {user && (

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 import "./address.css";
 
 export default function Address() {
   const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
 
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
@@ -15,19 +17,30 @@ export default function Address() {
     name: "",
     countryCode: "+91",
     phone: "",
+    email: "",
     doorNo: "",
     street: "",
     city: "",
     pincode: "",
   });
 
+  // Get current user
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+        loadAddressesForUser(user.email);
+      } else {
+        // If not logged in, redirect to login
+        navigate("/login");
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
+
   // Load cart data and addresses
   useEffect(() => {
     console.log("=== ADDRESS PAGE LOADED ===");
-
-    // Load addresses
-    const saved = JSON.parse(localStorage.getItem("addresses") || "[]");
-    setAddresses(saved);
 
     // Try to get cart from checkoutCart first
     let checkoutCart = localStorage.getItem("checkoutCart");
@@ -65,19 +78,57 @@ export default function Address() {
     setLoading(false);
   }, []);
 
-  // Check if cart is empty after loading
-  useEffect(() => {
-    if (!loading && cartItems.length === 0) {
-      console.log("Cart is empty! Redirecting to shop...");
-      alert("Your cart is empty. Please add items to cart first.");
-      navigate("/shop");
-    }
-  }, [cartItems, loading, navigate]);
+  // Load addresses for specific user email
+  const loadAddressesForUser = (userEmail: string | null) => {
+    if (!userEmail) return;
+
+    // Get all addresses from localStorage
+    const allAddresses = JSON.parse(localStorage.getItem("addresses") || "{}");
+
+    // Get addresses for this specific user
+    const userAddresses = allAddresses[userEmail] || [];
+    setAddresses(userAddresses);
+
+    console.log(`Loaded ${userAddresses.length} addresses for ${userEmail}`);
+  };
+
+  // Save addresses for current user
+  const saveAddressesForUser = (userEmail: string, addressesToSave: any[]) => {
+    if (!userEmail) return;
+
+    // Get all addresses
+    const allAddresses = JSON.parse(localStorage.getItem("addresses") || "{}");
+
+    // Update addresses for this user
+    allAddresses[userEmail] = addressesToSave;
+
+    // Save back to localStorage
+    localStorage.setItem("addresses", JSON.stringify(allAddresses));
+
+    console.log(`Saved ${addressesToSave.length} addresses for ${userEmail}`);
+  };
 
   const saveAddress = () => {
+    if (!user?.email) {
+      alert("Please login to save address");
+      navigate("/login");
+      return;
+    }
+
     // Validation
     if (!form.name.trim()) {
       alert("Please enter your full name");
+      return;
+    }
+
+    // Email validation
+    if (!form.email.trim()) {
+      alert("Please enter your email address");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      alert("Please enter a valid email address");
       return;
     }
 
@@ -111,15 +162,25 @@ export default function Address() {
       return;
     }
 
-    const newAddresses = [...addresses, form];
-    localStorage.setItem("addresses", JSON.stringify(newAddresses));
+    // Create new address object with timestamp
+    const newAddress = {
+      ...form,
+      id: Date.now(), // Add unique ID
+      createdAt: new Date().toISOString(),
+    };
+
+    const newAddresses = [...addresses, newAddress];
     setAddresses(newAddresses);
+
+    // Save to localStorage with user email
+    saveAddressesForUser(user.email, newAddresses);
 
     // Reset form
     setForm({
       name: "",
       countryCode: "+91",
       phone: "",
+      email: "",
       doorNo: "",
       street: "",
       city: "",
@@ -128,12 +189,18 @@ export default function Address() {
 
     // Auto-select the newly added address
     setSelected(newAddresses.length - 1);
+
+    alert("Address saved successfully!");
   };
 
   const deleteAddress = (index: number) => {
+    if (!user?.email) return;
+
     const updated = addresses.filter((_, i) => i !== index);
     setAddresses(updated);
-    localStorage.setItem("addresses", JSON.stringify(updated));
+
+    // Save updated addresses for this user
+    saveAddressesForUser(user.email, updated);
 
     if (selected === index) {
       setSelected(null);
@@ -164,7 +231,7 @@ export default function Address() {
     const customerDetails = {
       name: selectedAddress.name,
       phone: selectedAddress.phone,
-      email: "",
+      email: selectedAddress.email,
       address: `${selectedAddress.doorNo}, ${selectedAddress.street}, ${selectedAddress.city} - ${selectedAddress.pincode}`,
     };
 
@@ -183,9 +250,20 @@ export default function Address() {
     return <div className="loading">Loading...</div>;
   }
 
+  if (!user) {
+    return <div className="loading">Redirecting to login...</div>;
+  }
+
   return (
     <div className="address-page">
       <h1>Choose Delivery Address</h1>
+
+      {/* User Info */}
+      <div className="user-info-banner">
+        <p>
+          Logged in as: <strong>{user.email}</strong>
+        </p>
+      </div>
 
       {/* Show cart warning if empty */}
       {cartItems.length === 0 && (
@@ -200,7 +278,7 @@ export default function Address() {
       <div className="address-list">
         {addresses.map((addr, index) => (
           <div
-            key={index}
+            key={addr.id || index}
             className={`address-card ${selected === index ? "active" : ""}`}
             onClick={() => setSelected(index)}
           >
@@ -222,6 +300,7 @@ export default function Address() {
             <p>
               {addr.countryCode} {addr.phone}
             </p>
+            <p className="email-field">{addr.email}</p>
           </div>
         ))}
       </div>
@@ -252,6 +331,13 @@ export default function Address() {
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
           />
         </div>
+
+        <input
+          type="email"
+          placeholder="Email Address *"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
 
         <input
           placeholder="Door No / Flat No *"

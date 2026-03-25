@@ -110,7 +110,7 @@ ${itemsList}
 View order: ${window.location.origin}/orders`;
   };
 
-  // Send WhatsApp notification to SHOP OWNER
+  // Send WhatsApp notification to SHOP OWNER (only automatic notification)
   const sendWhatsAppToOwner = (order: any) => {
     const message = formatWhatsAppMessage(order);
     // YOUR WhatsApp number (shop owner)
@@ -204,7 +204,7 @@ View order: ${window.location.origin}/orders`;
     localStorage.setItem("orders", JSON.stringify(existingOrders));
 
     // ===== SEND NOTIFICATIONS =====
-    // 1. Send WhatsApp notification to SHOP OWNER
+    // 1. Send WhatsApp notification to SHOP OWNER (automatic)
     sendWhatsAppToOwner(newOrder);
 
     // 2. Send Order Confirmation Email to CUSTOMER
@@ -249,7 +249,7 @@ View order: ${window.location.origin}/orders`;
     setUpiId(e.target.value);
   };
 
-  // Success Page with Animation
+  // Success Page - WhatsApp option REMOVED
   if (orderPlaced && placedOrder) {
     return (
       <div className="order-success-page">
@@ -303,21 +303,7 @@ View order: ${window.location.origin}/orders`;
             </p>
           </div>
 
-          <div className="whatsapp-section">
-            <p className="whatsapp-instruction">
-              📱 Click below to send order details to the shop owner:
-            </p>
-            <p style={{ fontSize: "12px", color: "#ff6b6b" }}>
-              ⚠️ Important: Share on WhatsApp to confirm your order
-            </p>
-            <button
-              className="whatsapp-share-btn"
-              onClick={() => sendWhatsAppToOwner(placedOrder)}
-            >
-              <span className="whatsapp-icon">💬</span>
-              Share Order on WhatsApp
-            </button>
-          </div>
+          {/* WhatsApp share section REMOVED - No button for customer to share */}
 
           <div className="success-actions">
             <button

@@ -712,3 +712,3113 @@
     font-size: 24px;
   }
 }
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 70px 12px 20px 12px;
+  }
+
+  .orders-header {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    padding: 12px 0;
+  }
+
+  .orders-title {
+    font-size: 20px;
+  }
+
+  .order-card {
+    margin-bottom: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .order-header {
+    padding: 12px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .order-info h3 {
+    font-size: 16px;
+  }
+
+  .order-date,
+  .customer-name {
+    font-size: 12px;
+  }
+
+  .status-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    align-self: flex-start;
+  }
+
+  .order-items-preview {
+    padding: 0 12px;
+  }
+
+  .preview-item {
+    gap: 10px;
+  }
+
+  .preview-item-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .preview-item-info h4 {
+    font-size: 14px;
+  }
+
+  .order-footer {
+    padding: 12px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .order-total,
+  .payment-method {
+    font-size: 14px;
+  }
+
+  .order-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .details-btn,
+  .track-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  /* Mobile Expanded Details */
+  .mobile-details-expanded {
+    padding: 12px;
+    border-top: 1px solid #eee;
+    background: #f9f9f9;
+  }
+
+  .mobile-details-expanded .details-section {
+    margin-bottom: 16px;
+  }
+
+  .mobile-details-expanded .details-section h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info-label {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .info-value {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .mobile-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .mobile-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .mobile-item-info {
+    flex: 1;
+  }
+
+  .mobile-item-info h4 {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .mobile-item-price {
+    font-size: 13px;
+    color: #28a745;
+    font-weight: 600;
+  }
+
+  /* Modal Mobile Optimization */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-height: 90vh;
+    border-radius: 20px 20px 0 0;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+  }
+
+  .mobile-tracking-modal {
+    max-height: 85vh;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .close-modal {
+    position: sticky;
+    top: 10px;
+    right: 10px;
+    float: right;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 20px;
+    z-index: 10;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    padding: 16px;
+    margin: 0;
+    clear: both;
+  }
+
+  /* Tracking Timeline Mobile */
+  .tracking-timeline {
+    padding: 16px;
+  }
+
+  .timeline-step {
+    margin-bottom: 20px;
+  }
+
+  .step-content h4 {
+    font-size: 14px;
+  }
+
+  .step-date,
+  .step-description {
+    font-size: 12px;
+  }
+
+  .delivery-estimate {
+    padding: 16px;
+    margin: 16px;
+    border-radius: 12px;
+  }
+
+  .delivery-estimate h4 {
+    font-size: 14px;
+  }
+
+  .delivery-estimate p {
+    font-size: 13px;
+  }
+
+  /* Notification Mobile */
+  .order-notification {
+    position: fixed;
+    top: 70px;
+    left: 12px;
+    right: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  /* Touch Optimizations */
+  button,
+  .order-card,
+  .details-btn,
+  .track-btn {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+/* For larger touch devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .orders-container {
+    padding: 80px 20px 20px 20px;
+  }
+
+  .orders-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+/* Ensure navbar takes full width */
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Main container should account for fixed navbar */
+.orders-container {
+  max-width: 1200px;
+  margin: 80px auto 0;
+  padding: 20px;
+  min-height: calc(100vh - 80px);
+}
+
+/* Order card styling */
+.order-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.order-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.order-date,
+.customer-name {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  text-transform: uppercase;
+}
+
+.order-items-preview {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.preview-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.preview-item:last-child {
+  margin-bottom: 0;
+}
+
+.preview-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.preview-item-info {
+  flex: 1;
+}
+
+.preview-item-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.preview-item-info p {
+  margin: 0;
+  font-size: 13px;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.more-items {
+  margin: 8px 0 0 0;
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: #fff;
+}
+
+.order-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-total {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.payment-method {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.order-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.details-btn,
+.track-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.details-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.details-btn:hover {
+  background: #e0e0e0;
+}
+
+.track-btn {
+  background: #007bff;
+  color: white;
+}
+
+.track-btn:hover {
+  background: #0056b3;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .orders-container {
+    margin: 70px auto 0;
+    padding: 16px;
+  }
+
+  .order-header {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+
+  .order-info h3 {
+    font-size: 15px;
+  }
+
+  .status-badge {
+    align-self: flex-start;
+  }
+
+  .order-items-preview {
+    padding: 12px 16px;
+  }
+
+  .preview-item-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .preview-item-info h4 {
+    font-size: 13px;
+  }
+
+  .order-footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .order-summary {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .order-actions {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .details-btn,
+  .track-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .mobile-details-expanded {
+    padding: 16px;
+    background: #f9f9f9;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info-label {
+    font-size: 11px;
+    color: #666;
+  }
+
+  .info-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .mobile-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .mobile-item:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .mobile-item-info {
+    flex: 1;
+  }
+
+  .mobile-item-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+  }
+
+  .mobile-item-price {
+    margin: 0;
+    font-size: 13px;
+    color: #28a745;
+    font-weight: 600;
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.close-modal {
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  float: right;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-title {
+  padding: 20px 20px 0 20px;
+  margin: 0;
+  font-size: 20px;
+}
+
+.details-section {
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.details-section:last-child {
+  border-bottom: none;
+}
+
+.section-title {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Tracking Timeline */
+.tracking-container {
+  padding: 20px;
+}
+
+.current-status {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.current-status h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.tracking-timeline {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-step {
+  display: flex;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.step-indicator {
+  position: relative;
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ccc;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #ccc;
+  position: absolute;
+  left: 14px;
+  top: 4px;
+}
+
+.timeline-step.completed .step-dot {
+  background: #28a745;
+  box-shadow: 0 0 0 2px #28a745;
+}
+
+.step-line {
+  position: absolute;
+  left: 19px;
+  top: 20px;
+  width: 2px;
+  height: calc(100% + 8px);
+  background: #e0e0e0;
+}
+
+.timeline-step:last-child .step-line {
+  display: none;
+}
+
+.timeline-step.completed .step-line {
+  background: #28a745;
+}
+
+.step-content {
+  flex: 1;
+  padding-left: 12px;
+}
+
+.step-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.step-date {
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.step-description {
+  margin: 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.delivery-estimate {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.delivery-estimate h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.delivery-estimate p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.delivered-text {
+  color: #28a745;
+  font-weight: 500;
+}
+
+/* Notification */
+.order-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1500;
+  animation: slideInRight 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-icon {
+  font-size: 18px;
+}
+
+.notification-message {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* No Orders */
+.no-orders {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  margin-top: 40px;
+}
+
+.no-orders p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.shop-now-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.shop-now-btn:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Orders Header */
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.orders-title {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.close-orders-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+  padding: 4px 8px;
+}
+
+.close-orders-btn:hover {
+  color: #333;
+}
+/* ============================================
+   COOL RETURN BUTTON STYLES
+   ============================================ */
+
+/* Return Button - Main Style */
+.return-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.return-btn::before {
+  content: "↺";
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.return-btn:hover::before {
+  transform: rotate(180deg);
+}
+
+.return-btn:hover {
+  background: linear-gradient(135deg, #ff4757, #e84141);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.return-btn:active {
+  transform: translateY(0);
+}
+
+/* Return Status Button - Shows return status */
+.return-status-btn {
+  background: white;
+  border: 2px solid;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.return-status-btn::before {
+  content: "📦";
+  font-size: 12px;
+}
+
+.return-status-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Return Modal Styles */
+.return-modal-content {
+  padding: 10px 0;
+}
+
+.return-item-preview {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa, #fff);
+  border-radius: 20px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.return-item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.return-item-image:hover {
+  transform: scale(1.05);
+}
+
+.return-item-details {
+  flex: 1;
+}
+
+.return-item-details h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.return-item-details p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+/* Return Form */
+.return-form {
+  padding: 0 20px;
+}
+
+.return-form label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.return-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.return-select:focus {
+  outline: none;
+  border-color: #ff4757;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+
+.return-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.return-textarea:focus {
+  outline: none;
+  border-color: #ff4757;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+
+/* Return Info Box */
+.return-info {
+  background: linear-gradient(135deg, #fef5e8, #fff8f0);
+  border-left: 4px solid #ff9800;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.return-info p {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ff9800;
+}
+
+.return-info ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.return-info li {
+  font-size: 13px;
+  color: #666;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+/* Return Action Buttons */
+.return-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.cancel-return-btn {
+  flex: 1;
+  padding: 12px;
+  background: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-return-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.submit-return-btn {
+  flex: 2;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+}
+
+.submit-return-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+/* Return Status Modal */
+.return-status-content {
+  padding: 20px;
+}
+
+.status-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.return-status-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.return-details {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.return-detail-row {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.return-detail-row:last-child {
+  border-bottom: none;
+}
+
+.return-label {
+  font-weight: 600;
+  width: 100px;
+  color: #666;
+}
+
+.return-detail-row span:last-child {
+  flex: 1;
+  color: #333;
+}
+
+/* Return Instructions */
+.return-instructions {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.return-instructions h4 {
+  color: #4caf50;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.return-address {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 15px 0;
+  font-family: monospace;
+  font-size: 13px;
+  border: 1px dashed #4caf50;
+}
+
+.return-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.return-rejection {
+  background: linear-gradient(135deg, #ffebee, #ffcdd2);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(244, 67, 54, 0.2);
+}
+
+.return-rejection h4 {
+  color: #f44336;
+  margin-bottom: 10px;
+}
+
+.return-completed {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.return-completed h4 {
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+
+.close-status-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.close-status-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Desktop Return Button */
+.return-action-desktop {
+  margin-top: 12px;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .return-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .return-status-btn {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .return-item-preview {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .return-item-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .return-actions {
+    flex-direction: column;
+  }
+
+  .return-detail-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .return-label {
+    width: auto;
+  }
+}
+
+/* Animation for Return Modal */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Hover effect for return items */
+.return-action {
+  position: relative;
+}
+
+.return-btn,
+.return-status-btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ripple effect for return button */
+.return-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.return-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.return-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Glow effect for submit button */
+.submit-return-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-return-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.submit-return-btn:hover::before {
+  left: 100%;
+}
+
+/* Loading state for return button (optional) */
+.return-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.return-btn.loading::before {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tooltip for return button */
+.return-btn {
+  position: relative;
+}
+
+.return-btn::after {
+  content: "Request a return for this item";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  margin-bottom: 8px;
+  z-index: 10;
+}
+
+.return-btn:hover::after {
+  opacity: 1;
+}
+
+/* Responsive tooltip for mobile */
+@media (max-width: 768px) {
+  .return-btn::after {
+    display: none;
+  }
+}
+
+/* Special effect for return status badge */
+.return-status-badge {
+  position: relative;
+  overflow: hidden;
+}
+
+.return-status-badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.return-status-badge:hover::before {
+  left: 100%;
+}
+/* ============================================
+   COOL RETURN BUTTON STYLES - FIXED TEXT CUTOFF
+   ============================================ */
+
+/* Return Button - Main Style */
+.return-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  min-width: 110px; /* Fixed minimum width to prevent text cutoff */
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: visible; /* Changed from hidden to visible */
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.return-btn::before {
+  content: "↺";
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.return-btn:hover::before {
+  transform: rotate(180deg);
+}
+
+.return-btn:hover {
+  background: linear-gradient(135deg, #ff4757, #e84141);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.return-btn:active {
+  transform: translateY(0);
+}
+
+/* Return Status Button - Shows return status */
+.return-status-btn {
+  background: white;
+  border: 2px solid;
+  padding: 6px 14px;
+  min-width: 130px; /* Fixed minimum width */
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.return-status-btn::before {
+  content: "📦";
+  font-size: 12px;
+  display: inline-block;
+}
+
+.return-status-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix for mobile view to prevent text cutoff */
+@media (max-width: 768px) {
+  .return-btn {
+    padding: 6px 12px;
+    min-width: 100px; /* Slightly smaller on mobile but still readable */
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .return-status-btn {
+    padding: 5px 10px;
+    min-width: 115px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  /* Fix for preview item container */
+  .preview-item {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .preview-item-info {
+    flex: 1;
+    min-width: 0; /* Allow flex items to shrink */
+  }
+
+  .return-action {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .return-btn,
+  .return-status-btn {
+    width: auto;
+    display: inline-flex;
+  }
+}
+
+/* Fix for desktop modal items */
+.modal-item-info {
+  flex: 1;
+  min-width: 0; /* Prevent overflow */
+}
+
+.return-action-desktop {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.return-action-desktop .return-btn,
+.return-action-desktop .return-status-btn {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+/* Fix for order items preview container */
+.order-items-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preview-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.preview-item-info {
+  flex: 1;
+  min-width: 150px; /* Ensure enough space for button */
+}
+
+.preview-item-info h4 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.preview-item-info p {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0;
+}
+
+/* Mobile expanded view fix */
+.mobile-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.mobile-item-info {
+  flex: 1;
+  min-width: 150px;
+}
+
+.mobile-item-info h4 {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.return-action {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Ensure buttons don't overflow on very small screens */
+@media (max-width: 480px) {
+  .return-btn {
+    min-width: 90px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .return-status-btn {
+    min-width: 100px;
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+
+  .preview-item-info {
+    min-width: 120px;
+  }
+
+  .mobile-item-info {
+    min-width: 120px;
+  }
+}
+
+/* Return Modal Styles */
+.return-modal-content {
+  padding: 10px 0;
+}
+
+.return-item-preview {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa, #fff);
+  border-radius: 20px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+}
+
+.return-item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.return-item-image:hover {
+  transform: scale(1.05);
+}
+
+.return-item-details {
+  flex: 1;
+  min-width: 150px;
+}
+
+.return-item-details h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.return-item-details p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+/* Return Form */
+.return-form {
+  padding: 0 20px;
+}
+
+.return-form label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.return-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.return-select:focus {
+  outline: none;
+  border-color: #ff4757;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+
+.return-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.return-textarea:focus {
+  outline: none;
+  border-color: #ff4757;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+
+/* Return Info Box */
+.return-info {
+  background: linear-gradient(135deg, #fef5e8, #fff8f0);
+  border-left: 4px solid #ff9800;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.return-info p {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ff9800;
+}
+
+.return-info ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.return-info li {
+  font-size: 13px;
+  color: #666;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+/* Return Action Buttons */
+.return-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.cancel-return-btn {
+  flex: 1;
+  padding: 12px;
+  background: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.cancel-return-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.submit-return-btn {
+  flex: 2;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  min-width: 150px;
+}
+
+.submit-return-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+/* Return Status Modal */
+.return-status-content {
+  padding: 20px;
+}
+
+.status-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.return-status-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  animation: pulse 2s infinite;
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.return-details {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.return-detail-row {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.return-detail-row:last-child {
+  border-bottom: none;
+}
+
+.return-label {
+  font-weight: 600;
+  width: 100px;
+  color: #666;
+}
+
+.return-detail-row span:last-child {
+  flex: 1;
+  color: #333;
+  word-break: break-word;
+}
+
+/* Return Instructions */
+.return-instructions {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.return-instructions h4 {
+  color: #4caf50;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.return-address {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 15px 0;
+  font-family: monospace;
+  font-size: 13px;
+  border: 1px dashed #4caf50;
+  word-break: break-word;
+}
+
+.return-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.return-rejection {
+  background: linear-gradient(135deg, #ffebee, #ffcdd2);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(244, 67, 54, 0.2);
+}
+
+.return-rejection h4 {
+  color: #f44336;
+  margin-bottom: 10px;
+}
+
+.return-completed {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.return-completed h4 {
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+
+.close-status-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.close-status-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Desktop Return Button */
+.return-action-desktop {
+  margin-top: 12px;
+}
+
+/* Animation for Return Modal */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Ripple effect for return button */
+.return-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.return-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.return-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Glow effect for submit button */
+.submit-return-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-return-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.submit-return-btn:hover::before {
+  left: 100%;
+}
+
+/* Tooltip for return button - Hidden on mobile to prevent cutoff */
+@media (min-width: 769px) {
+  .return-btn {
+    position: relative;
+  }
+
+  .return-btn::after {
+    content: "Request a return for this item";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    margin-bottom: 8px;
+    z-index: 10;
+  }
+
+  .return-btn:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
+  .return-btn {
+    min-width: 85px;
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+
+  .return-status-btn {
+    min-width: 95px;
+    padding: 4px 6px;
+    font-size: 9px;
+  }
+}
+/* ============================================
+   CANCEL ORDER BUTTON STYLES
+   ============================================ */
+
+/* Cancel Order Button - Main Style */
+.cancel-order-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+.cancel-order-btn::before {
+  content: "✕";
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.cancel-order-btn:hover::before {
+  transform: rotate(90deg);
+}
+
+.cancel-order-btn:hover {
+  background: linear-gradient(135deg, #ff4757, #e84141);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.cancel-order-btn:active {
+  transform: translateY(0);
+}
+
+/* Order Header Actions Container */
+.order-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   CANCEL MODAL STYLES
+   ============================================ */
+
+/* Cancel Modal Content */
+.cancel-modal-content {
+  padding: 10px 0;
+}
+
+/* Warning Section */
+.cancel-warning {
+  background: linear-gradient(135deg, #fff5f5, #ffe0e0);
+  border-left: 4px solid #ff4757;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.warning-icon {
+  font-size: 28px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.cancel-warning p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff4757;
+}
+
+/* Order Preview Section */
+.cancel-order-preview {
+  background: linear-gradient(135deg, #f8f9fa, #fff);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.cancel-order-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.cancel-order-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.cancel-order-info strong {
+  color: #ff4757;
+  font-weight: 600;
+}
+
+/* Cancel Form */
+.cancel-form {
+  padding: 0;
+}
+
+.cancel-form label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.cancel-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.cancel-select:focus {
+  outline: none;
+  border-color: #ff4757;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+
+.cancel-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.cancel-textarea:focus {
+  outline: none;
+  border-color: #ff4757;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+
+/* Cancel Info Box */
+.cancel-info {
+  background: linear-gradient(135deg, #fff5e8, #fff8f0);
+  border-left: 4px solid #ff9800;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.cancel-info p {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ff9800;
+}
+
+.cancel-info ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.cancel-info li {
+  font-size: 13px;
+  color: #666;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+/* Cancel Action Buttons */
+.cancel-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.keep-order-btn {
+  flex: 1;
+  padding: 12px;
+  background: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.keep-order-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.confirm-cancel-btn {
+  flex: 2;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.confirm-cancel-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.confirm-cancel-btn:hover::before {
+  left: 100%;
+}
+
+.confirm-cancel-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.confirm-cancel-btn:active {
+  transform: translateY(0);
+}
+
+/* Ripple Effect for Cancel Button */
+.cancel-order-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.cancel-order-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.cancel-order-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Tooltip for Cancel Button */
+@media (min-width: 769px) {
+  .cancel-order-btn {
+    position: relative;
+  }
+
+  .cancel-order-btn:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .cancel-order-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+    margin-left: 8px;
+  }
+
+  .cancel-order-btn::before {
+    font-size: 12px;
+  }
+
+  .order-header-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cancel-warning {
+    padding: 12px 15px;
+  }
+
+  .warning-icon {
+    font-size: 24px;
+  }
+
+  .cancel-warning p {
+    font-size: 14px;
+  }
+
+  .cancel-order-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cancel-actions {
+    flex-direction: column;
+  }
+
+  .keep-order-btn,
+  .confirm-cancel-btn {
+    width: 100%;
+  }
+}
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+  .cancel-order-btn {
+    padding: 5px 10px;
+    font-size: 10px;
+    margin-left: 6px;
+  }
+
+  .cancel-order-btn::before {
+    font-size: 10px;
+  }
+
+  .cancel-warning p {
+    font-size: 12px;
+  }
+
+  .cancel-order-preview {
+    padding: 15px;
+  }
+
+  .cancel-order-info p {
+    font-size: 12px;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Slide Down Animation for Modal */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Button Click Effect */
+.confirm-cancel-btn:active {
+  transform: scale(0.98);
+}
+
+/* Success State (Optional) */
+.cancel-order-btn.success {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  pointer-events: none;
+}
+
+.cancel-order-btn.success::before {
+  content: "✓";
+  transform: rotate(0);
+}
+
+/* Loading State (Optional) */
+.cancel-order-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.cancel-order-btn.loading::before {
+  animation: spin 1s linear infinite;
+  content: "↻";
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   RETURN BUTTON STYLES (Keep existing)
+   ============================================ */
+
+/* Return Button - Main Style */
+.return-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  min-width: 110px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: visible;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.return-btn::before {
+  content: "↺";
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.return-btn:hover::before {
+  transform: rotate(180deg);
+}
+
+.return-btn:hover {
+  background: linear-gradient(135deg, #ff4757, #e84141);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.return-btn:active {
+  transform: translateY(0);
+}
+
+/* Return Status Button */
+.return-status-btn {
+  background: white;
+  border: 2px solid;
+  padding: 6px 14px;
+  min-width: 130px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.return-status-btn::before {
+  content: "📦";
+  font-size: 12px;
+  display: inline-block;
+}
+
+.return-status-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Responsive for Return Button */
+@media (max-width: 768px) {
+  .return-btn {
+    padding: 6px 12px;
+    min-width: 100px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .return-status-btn {
+    padding: 5px 10px;
+    min-width: 115px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .return-action {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .return-btn,
+  .return-status-btn {
+    width: auto;
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .return-btn {
+    min-width: 90px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .return-status-btn {
+    min-width: 100px;
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+}
+/* ============================================
+   CANCEL ORDER BUTTON FIX FOR DESKTOP
+   ============================================ */
+
+/* Order Header Actions Container */
+.order-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+/* Cancel Order Button - Desktop Optimized */
+.cancel-order-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  min-width: 130px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  white-space: nowrap;
+  margin-left: 0;
+}
+
+.cancel-order-btn::before {
+  content: "✕";
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.cancel-order-btn:hover::before {
+  transform: rotate(90deg);
+}
+
+.cancel-order-btn:hover {
+  background: linear-gradient(135deg, #ff4757, #e84141);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.cancel-order-btn:active {
+  transform: translateY(0);
+}
+
+/* Order Header Layout Fix */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.order-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.order-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.order-date {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+.customer-name {
+  font-size: 12px;
+  color: #888;
+  margin-top: 3px;
+}
+
+/* Status Badge and Cancel Button Row */
+.order-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* ============================================
+   RESPONSIVE FIXES
+   ============================================ */
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .cancel-order-btn {
+    padding: 8px 24px;
+    min-width: 140px;
+    font-size: 13px;
+  }
+
+  .order-header {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .order-info {
+    flex: 1;
+  }
+
+  .order-header-actions {
+    flex-shrink: 0;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .cancel-order-btn {
+    padding: 6px 14px;
+    min-width: 110px;
+    font-size: 11px;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-header-actions {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .status-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+  .cancel-order-btn {
+    padding: 5px 12px;
+    min-width: 95px;
+    font-size: 10px;
+  }
+
+  .cancel-order-btn::before {
+    font-size: 10px;
+  }
+}
+
+/* ============================================
+   RIPPLE EFFECT (Optional)
+   ============================================ */
+
+.cancel-order-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.cancel-order-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.cancel-order-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* ============================================
+   TOOLTIP FOR DESKTOP USERS
+   ============================================ */
+
+@media (min-width: 769px) {
+  .cancel-order-btn {
+    position: relative;
+  }
+
+  .cancel-order-btn::before {
+    content: "✕";
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    display: inline-block;
+  }
+}
+/* ============================================
+   CANCEL ORDER BUTTON - FIXED (No Tooltip)
+   ============================================ */
+
+/* Order Header Actions Container */
+.order-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+/* Cancel Order Button - Clean Version */
+.cancel-order-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  min-width: 130px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  white-space: nowrap;
+  margin-left: 0;
+}
+
+.cancel-order-btn::before {
+  content: "✕";
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.cancel-order-btn:hover::before {
+  transform: rotate(90deg);
+}
+
+.cancel-order-btn:hover {
+  background: linear-gradient(135deg, #ff4757, #e84141);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.cancel-order-btn:active {
+  transform: translateY(0);
+}
+
+/* Remove the tooltip completely */
+.cancel-order-btn::after {
+  display: none;
+  content: none;
+}
+
+/* Order Header Layout */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.order-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.order-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.order-date {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+.customer-name {
+  font-size: 12px;
+  color: #888;
+  margin-top: 3px;
+}
+
+/* Status Badge and Cancel Button Row */
+.order-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* Ripple Effect Only */
+.cancel-order-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.cancel-order-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  display: block; /* This is the ripple effect, not the tooltip */
+}
+
+.cancel-order-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* ============================================
+   RESPONSIVE FIXES
+   ============================================ */
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .cancel-order-btn {
+    padding: 8px 24px;
+    min-width: 140px;
+    font-size: 13px;
+  }
+
+  .order-header {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .order-info {
+    flex: 1;
+  }
+
+  .order-header-actions {
+    flex-shrink: 0;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .cancel-order-btn {
+    padding: 6px 14px;
+    min-width: 110px;
+    font-size: 11px;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-header-actions {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .status-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+  .cancel-order-btn {
+    padding: 5px 12px;
+    min-width: 95px;
+    font-size: 10px;
+  }
+
+  .cancel-order-btn::before {
+    font-size: 10px;
+  }
+}
