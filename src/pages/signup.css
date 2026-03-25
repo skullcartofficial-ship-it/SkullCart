@@ -362,3 +362,243 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+/* Price Filter Section with Dual Range Slider */
+.price-filter-section {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eaeaea;
+}
+
+.price-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.price-filter-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.clear-filter-btn {
+  background: none;
+  border: none;
+  color: #ff5722;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.clear-filter-btn:hover {
+  background: rgba(255, 87, 34, 0.1);
+  color: #e64a19;
+}
+
+/* Price Range Display with Inputs */
+.price-range-display {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.price-input-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+.price-input-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.price-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 12px;
+  color: #999;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.price-input-wrapper input {
+  width: 100%;
+  padding: 10px 12px 10px 28px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.price-input-wrapper input:focus {
+  outline: none;
+  border-color: #ff5722;
+  box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.1);
+}
+
+.price-separator {
+  font-size: 20px;
+  font-weight: 500;
+  color: #999;
+  padding-bottom: 10px;
+}
+
+.apply-price-btn {
+  padding: 10px 24px;
+  background: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 0;
+}
+
+.apply-price-btn:hover {
+  background: #e64a19;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+}
+
+/* Dual Range Slider */
+.dual-range-slider {
+  position: relative;
+  height: 4px;
+  margin: 32px 0 16px;
+}
+
+.slider-input {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.slider-input::-webkit-slider-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff5722;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.slider-input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff5722;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.slider-track {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.slider-range {
+  position: absolute;
+  height: 100%;
+  background: #ff5722;
+  border-radius: 4px;
+}
+
+.price-range-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .price-filter-section {
+    margin: 16px;
+    padding: 20px;
+  }
+
+  .price-range-display {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .price-input-group {
+    min-width: auto;
+  }
+
+  .price-separator {
+    display: none;
+  }
+
+  .apply-price-btn {
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .dual-range-slider {
+    margin: 28px 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .price-filter-section {
+    padding: 16px;
+  }
+
+  .price-filter-header h3 {
+    font-size: 16px;
+  }
+
+  .price-input-wrapper input {
+    padding: 8px 12px 8px 28px;
+    font-size: 13px;
+  }
+
+  .apply-price-btn {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+}

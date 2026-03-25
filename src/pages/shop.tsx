@@ -11,7 +11,7 @@ const productList: Product[] = [
     id: 1,
     title: "Wireless Earbuds",
     price: 129,
-    originalPrice: 249, // 48% off
+    originalPrice: 249,
     image: "/2.jpg",
     images: ["1.jpg", "2.jpg", "4.jpg"],
     description:
@@ -19,7 +19,7 @@ const productList: Product[] = [
     category: "Accessories",
     rating: 4.5,
     sale: false,
-    limitedTimeOffer: true, // This will show the limited time offer badge
+    limitedTimeOffer: true,
     features: {
       subtitle: "True wireless freedom with premium audio experience",
       items: [
@@ -79,6 +79,7 @@ const productList: Product[] = [
     id: 2,
     title: "Smart Sensor Light Pro",
     price: 199,
+    originalPrice: 399,
     image: "/1.jpg",
     images: ["/watch/1.jpg", "/watch/2.jpg", "/watch/3.jpg"],
     description:
@@ -148,6 +149,7 @@ const productList: Product[] = [
     id: 3,
     title: "Gaming Laptop",
     price: 1299,
+    originalPrice: 2499,
     image: "4.jpg",
     images: ["/laptop/1.jpg", "/laptop/2.jpg", "/laptop/3.jpg"],
     description:
@@ -155,7 +157,7 @@ const productList: Product[] = [
     category: "Laptops",
     rating: 4.8,
     sale: false,
-    limitedTimeOffer: true, // Add limited time offer to gaming laptop
+    limitedTimeOffer: true,
     features: {
       subtitle: "Ultimate gaming performance with cutting-edge technology",
       items: [
@@ -214,12 +216,80 @@ const productList: Product[] = [
   },
 ];
 
+// Add more products with various prices for better filtering demo
+const additionalProducts: Product[] = [
+  {
+    id: 4,
+    title: "Premium Wireless Headphones",
+    price: 24999,
+    originalPrice: 49999,
+    image: "/headphones.jpg",
+    images: [],
+    description: "High-end wireless headphones with noise cancellation",
+    category: "Accessories",
+    rating: 4.7,
+    sale: true,
+    limitedTimeOffer: false,
+    features: { subtitle: "", items: [] },
+    specifications: [],
+    whatsInBox: [],
+    lightDescription: "",
+  },
+  {
+    id: 5,
+    title: "Smart Fitness Band",
+    price: 3999,
+    originalPrice: 7999,
+    image: "/fitness.jpg",
+    images: [],
+    description: "Track your fitness goals with this smart band",
+    category: "Wearables",
+    rating: 4.3,
+    sale: true,
+    limitedTimeOffer: false,
+    features: { subtitle: "", items: [] },
+    specifications: [],
+    whatsInBox: [],
+    lightDescription: "",
+  },
+  {
+    id: 6,
+    title: "Ultrabook Laptop",
+    price: 84999,
+    originalPrice: 119999,
+    image: "/ultrabook.jpg",
+    images: [],
+    description: "Lightweight ultrabook for professionals",
+    category: "Laptops",
+    rating: 4.6,
+    sale: false,
+    limitedTimeOffer: true,
+    features: { subtitle: "", items: [] },
+    specifications: [],
+    whatsInBox: [],
+    lightDescription: "",
+  },
+];
+
+const allProducts = [...productList, ...additionalProducts];
+
+// Price range options
+const PRICE_RANGES = [
+  { label: "Up to ₹15,000", min: 0, max: 15000 },
+  { label: "₹15,000 - ₹27,000", min: 15000, max: 27000 },
+  { label: "₹27,000 - ₹42,500", min: 27000, max: 42500 },
+  { label: "Over ₹42,500", min: 42500, max: Infinity },
+];
+
 export default function Shop() {
   const navigate = useNavigate();
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [cart, setCart] = useState<CartItem[]>(getCart());
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
+    null
+  );
 
   const addToCart = (product: Product) => {
     addItemToCart(product);
@@ -237,11 +307,28 @@ export default function Shop() {
     return 0;
   };
 
-  const filteredProducts = productList.filter((p) => {
+  // Get price range for a product
+  const getPriceRange = (price: number): string => {
+    if (price <= 15000) return "Up to ₹15,000";
+    if (price <= 27000) return "₹15,000 - ₹27,000";
+    if (price <= 42500) return "₹27,000 - ₹42,500";
+    return "Over ₹42,500";
+  };
+
+  const filteredProducts = allProducts.filter((p) => {
     const matchCategory = category === "All" || p.category === category;
     const matchSearch = p.title.toLowerCase().includes(search.toLowerCase());
-    return matchCategory && matchSearch;
+    const matchPriceRange = selectedPriceRange
+      ? getPriceRange(p.price) === selectedPriceRange
+      : true;
+    return matchCategory && matchSearch && matchPriceRange;
   });
+
+  // Get price range statistics
+  const getPriceRangeCount = (rangeLabel: string) => {
+    return allProducts.filter((p) => getPriceRange(p.price) === rangeLabel)
+      .length;
+  };
 
   return (
     <div className="shop-page">
@@ -254,97 +341,145 @@ export default function Shop() {
         </button>
       </div>
 
-      {/* Centered Search Bar */}
-      <div className="search-bar-container">
-        <div className="search-bar">
-          <span className="search-icon"></span>
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {search && (
-            <button className="clear-search" onClick={() => setSearch("")}>
-              ✕
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Categories */}
-      <div className="categories">
-        {["All", "Laptops", "Wearables", "Accessories"].map((c) => (
-          <button
-            key={c}
-            className={category === c ? "active" : ""}
-            onClick={() => setCategory(c)}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
-
-      {/* Products Grid */}
-      <div className="products">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((p) => {
-            const discountPercent = getDiscountPercentage(p);
-
-            return (
-              <div
-                className="product-card"
-                key={p.id}
-                onClick={() => setSelectedProduct(p)}
+      {/* Main Content with Sidebar Layout */}
+      <div className="shop-main-layout">
+        {/* Left Sidebar - Filters */}
+        <aside className="shop-sidebar">
+          {/* Search Bar */}
+          <div className="sidebar-search">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="sidebar-search-input"
+            />
+            {search && (
+              <button
+                className="clear-search-sidebar"
+                onClick={() => setSearch("")}
               >
-                {/* Image Container with Badges */}
-                <div className="product-image-container">
-                  <img src={p.image} alt={p.title} />
+                ✕
+              </button>
+            )}
+          </div>
 
-                  {/* Sale Badge */}
-                  {p.sale && <div className="sale-badge">SALE</div>}
-
-                  {/* Limited Time Offer Badge */}
-                  {p.limitedTimeOffer && (
-                    <div className="limited-offer-badge">
-                      ⏰ LIMITED TIME OFFER
-                    </div>
-                  )}
-                </div>
-
-                <h3>{p.title}</h3>
-
-                {/* Price Section */}
-                <div className="price-section">
-                  {p.originalPrice && p.originalPrice > p.price ? (
-                    <>
-                      <span className="current-price">₹{p.price}</span>
-                      <span className="original-price">₹{p.originalPrice}</span>
-                      {discountPercent > 0 && (
-                        <span className="discount-percent">
-                          ({discountPercent}% OFF)
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    <span className="current-price">₹{p.price}</span>
-                  )}
-                </div>
-
+          {/* Categories */}
+          <div className="sidebar-section">
+            <h3>Categories</h3>
+            <div className="categories-list">
+              {["All", "Laptops", "Wearables", "Accessories"].map((c) => (
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToCart(p);
-                  }}
+                  key={c}
+                  className={`category-btn ${category === c ? "active" : ""}`}
+                  onClick={() => setCategory(c)}
                 >
-                  Add to Cart
+                  {c}
                 </button>
-              </div>
-            );
-          })
-        ) : (
-          <p className="no-products">No products found</p>
-        )}
+              ))}
+            </div>
+          </div>
+
+          {/* Price Filter Section - Now on Left Side */}
+          <div className="sidebar-section">
+            <div className="price-filter-header">
+              <h3>Price</h3>
+              {selectedPriceRange && (
+                <button
+                  className="clear-filter-btn"
+                  onClick={() => setSelectedPriceRange(null)}
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <div className="price-ranges">
+              {PRICE_RANGES.map((range) => {
+                const count = getPriceRangeCount(range.label);
+                const isActive = selectedPriceRange === range.label;
+                return (
+                  <button
+                    key={range.label}
+                    className={`price-range-btn ${isActive ? "active" : ""}`}
+                    onClick={() =>
+                      setSelectedPriceRange(isActive ? null : range.label)
+                    }
+                  >
+                    <span className="range-label">{range.label}</span>
+                    <span className="range-count">({count})</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
+
+        {/* Right Content - Products Grid */}
+        <main className="shop-main-content">
+          {/* Products Grid */}
+          <div className="products">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((p) => {
+                const discountPercent = getDiscountPercentage(p);
+
+                return (
+                  <div
+                    className="product-card"
+                    key={p.id}
+                    onClick={() => setSelectedProduct(p)}
+                  >
+                    {/* Image Container with Badges */}
+                    <div className="product-image-container">
+                      <img src={p.image} alt={p.title} />
+
+                      {/* Sale Badge */}
+                      {p.sale && <div className="sale-badge">SALE</div>}
+
+                      {/* Limited Time Offer Badge */}
+                      {p.limitedTimeOffer && (
+                        <div className="limited-offer-badge">
+                          ⏰ LIMITED TIME OFFER
+                        </div>
+                      )}
+                    </div>
+
+                    <h3>{p.title}</h3>
+
+                    {/* Price Section */}
+                    <div className="price-section">
+                      {p.originalPrice && p.originalPrice > p.price ? (
+                        <>
+                          <span className="current-price">₹{p.price}</span>
+                          <span className="original-price">
+                            ₹{p.originalPrice}
+                          </span>
+                          {discountPercent > 0 && (
+                            <span className="discount-percent">
+                              ({discountPercent}% OFF)
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="current-price">₹{p.price}</span>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(p);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                );
+              })
+            ) : (
+              <p className="no-products">No products found</p>
+            )}
+          </div>
+        </main>
       </div>
 
       {selectedProduct && (
