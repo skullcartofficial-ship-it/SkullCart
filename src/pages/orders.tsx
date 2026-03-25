@@ -145,6 +145,7 @@ export default function Orders() {
       paymentMethod: order.paymentMethod || "card",
       date: order.date || new Date().toLocaleString(),
       customerName: order.customerName || "Customer",
+      customerEmail: order.customerEmail || "customer@example.com",
       customerPhone: order.customerPhone || "Not provided",
       cancelledItems: order.cancelledItems || [],
     }));
@@ -256,6 +257,167 @@ View order: ${window.location.origin}/orders`;
     // Open email client with pre-filled SMS
     window.open(
       `mailto:${smsEmail}?subject=New Order #${
+        order.id
+      }&body=${encodeURIComponent(smsMessage)}`,
+      "_blank"
+    );
+  };
+
+  // NEW FUNCTION: Send Email Notification for Cancellation
+  const sendCancellationEmail = (order: Order, reason: string) => {
+    // Format order items for email
+    const itemsHtml = order.items
+      .map((item) => {
+        const itemName = getProductName(item);
+        const quantity = item.quantity || 1;
+        const price = getProductPrice(item);
+        return `
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">${itemName}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">${quantity}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">₹${price}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">₹${
+              price * quantity
+            }</td>
+          </tr>
+        `;
+      })
+      .join("");
+
+    const itemsText = order.items
+      .map((item) => {
+        const itemName = getProductName(item);
+        const quantity = item.quantity || 1;
+        const price = getProductPrice(item);
+        return `${itemName} x${quantity} - ₹${price} each = ₹${
+          price * quantity
+        }`;
+      })
+      .join("\n");
+
+    // Customer Email Content
+    const customerEmailSubject = `Order #${order.id} Cancelled - Skull Cart`;
+    const customerEmailBody = `
+Dear ${order.customerName || "Customer"},
+
+Your order #${order.id} has been successfully cancelled.
+
+Order Details:
+Order Date: ${order.date}
+Cancellation Reason: ${reason}
+Refund Amount: ₹${order.total}
+
+Items Cancelled:
+${itemsText}
+
+Refund Information:
+- Refund will be processed within 3-5 business days
+- Amount will be credited to your original payment method
+- You will receive a confirmation email once the refund is processed
+
+If you have any questions, please contact our customer support.
+
+Thank you for shopping with Skull Cart!
+
+Best regards,
+Skull Cart Team
+`;
+
+    // Admin Email Content
+    const adminEmailSubject = `Order Cancelled: #${order.id} - ${order.customerName}`;
+    const adminEmailBody = `
+Order Cancelled Alert!
+
+Order #${order.id} has been cancelled by the customer.
+
+Customer Details:
+- Name: ${order.customerName || "Not provided"}
+- Email: ${order.customerEmail || "Not provided"}
+- Phone: ${order.customerPhone || "Not provided"}
+
+Order Details:
+- Order Date: ${order.date}
+- Cancellation Time: ${new Date().toLocaleString()}
+- Cancellation Reason: ${reason}
+- Total Amount: ₹${order.total}
+- Payment Method: ${order.paymentMethod.toUpperCase()}
+
+Items Cancelled:
+${itemsText}
+
+Action Required:
+- Process refund of ₹${order.total}
+- Update inventory if needed
+
+View order details: ${window.location.origin}/orders
+
+Regards,
+Skull Cart System
+`;
+
+    // Send email to customer
+    if (order.customerEmail && order.customerEmail !== "customer@example.com") {
+      window.open(
+        `mailto:${order.customerEmail}?subject=${encodeURIComponent(
+          customerEmailSubject
+        )}&body=${encodeURIComponent(customerEmailBody)}`,
+        "_blank"
+      );
+    } else {
+      // Fallback - send to default email if customer email not available
+      window.open(
+        `mailto:customer@skullcart.com?subject=${encodeURIComponent(
+          customerEmailSubject
+        )}&body=${encodeURIComponent(customerEmailBody)}`,
+        "_blank"
+      );
+    }
+
+    // Send email to admin (store owner)
+    setTimeout(() => {
+      window.open(
+        `mailto:admin@skullcart.com?subject=${encodeURIComponent(
+          adminEmailSubject
+        )}&body=${encodeURIComponent(adminEmailBody)}`,
+        "_blank"
+      );
+    }, 500);
+
+    // Also send SMS notification for cancellation
+    sendCancellationSMS(order, reason);
+  };
+
+  // NEW FUNCTION: Send SMS Notification for Cancellation
+  const sendCancellationSMS = (order: Order, reason: string) => {
+    const itemsList = order.items
+      .slice(0, 3)
+      .map((item) => {
+        const itemName = getProductName(item);
+        const quantity = item.quantity || 1;
+        const price = getProductPrice(item);
+        return `${itemName} x${quantity} (₹${price})`;
+      })
+      .join(", ");
+
+    const moreItems =
+      order.items.length > 3 ? ` +${order.items.length - 3} more` : "";
+
+    const smsMessage = `❌ ORDER CANCELLED ❌
+
+Order #${order.id} has been cancelled.
+
+Customer: ${order.customerName || "Guest"}
+Reason: ${reason}
+Items: ${itemsList}${moreItems}
+Total: ₹${order.total}
+Refund: 3-5 business days
+
+Time: ${new Date().toLocaleString()}`;
+
+    const smsEmail = `6303320879@jio.com`;
+
+    window.open(
+      `mailto:${smsEmail}?subject=Order Cancelled #${
         order.id
       }&body=${encodeURIComponent(smsMessage)}`,
       "_blank"
@@ -431,11 +593,6 @@ View order: ${window.location.origin}/orders`;
     return order.status === "pending";
   };
 
-  // Check if item is eligible for return (only delivered orders)
-  const isItemEligibleForReturn = (order: Order): boolean => {
-    return order.status === "delivered";
-  };
-
   // Get return status for an item
   const getItemReturnStatus = (
     orderId: number,
@@ -515,7 +672,7 @@ View order: ${window.location.origin}/orders`;
     return texts[status as keyof typeof texts] || status;
   };
 
-  // Cancel order functions
+  // Cancel order functions - UPDATED with email notifications
   const openCancelModal = (order: Order) => {
     setSelectedOrderForCancel(order);
     setCancelReason("");
@@ -558,12 +715,15 @@ View order: ${window.location.origin}/orders`;
     const updatedCancelled = [...cancelledOrders, newCancelledItem];
     saveCancelledOrders(updatedCancelled);
 
+    // SEND EMAIL NOTIFICATIONS
+    sendCancellationEmail(order, cancelReason);
+
     // Show success notification
     setNotificationMessage(
-      `Order #${order.id} has been cancelled successfully`
+      `Order #${order.id} has been cancelled successfully. A confirmation email has been sent.`
     );
     setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
+    setTimeout(() => setShowNotification(false), 4000);
 
     // Close modal
     setShowCancelModal(false);
@@ -873,6 +1033,10 @@ View order: ${window.location.origin}/orders`;
                     <strong>Payment Method:</strong>{" "}
                     {selectedOrderForCancel.paymentMethod.toUpperCase()}
                   </p>
+                  <p>
+                    <strong>Email:</strong>{" "}
+                    {selectedOrderForCancel.customerEmail || "Not provided"}
+                  </p>
                 </div>
               </div>
 
@@ -915,9 +1079,9 @@ View order: ${window.location.origin}/orders`;
                     <li>
                       Full refund will be processed within 3-5 business days
                     </li>
+                    <li>Once cancelled, the order cannot be restored</li>
                     <li>
-                      Once cancelled, the order cannot be restored. Once The
-                      Order Is Shipped You Cannot Cancel It
+                      A confirmation email will be sent to your registered email
                     </li>
                   </ul>
                 </div>
@@ -939,6 +1103,7 @@ View order: ${window.location.origin}/orders`;
         </div>
       )}
 
+      {/* Rest of the modals remain the same... */}
       {/* Return Request Modal */}
       {showReturnModal && selectedItemForReturn && (
         <div className="modal-overlay" onClick={handleCloseModal}>
