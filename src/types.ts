@@ -4,12 +4,15 @@ export type Product = {
   title: string;
   description: string;
   price: number;
+
   image: string;
   images: string[];
   category?: string;
   stock?: number;
   rating?: number;
-  sale?: boolean; // ← ADD THIS LINE (optional since not all products are on sale)
+  sale?: boolean; // Regular sale badge
+  limitedTimeOffer?: boolean; // ADD THIS - Limited Time Offer badge
+  isLimitedOffer?: boolean; // Alternative name
 
   // Custom product information
   features?: {

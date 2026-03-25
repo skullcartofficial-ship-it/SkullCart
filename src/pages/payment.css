@@ -851,3 +851,187 @@
     padding: 16px 12px;
   }
 }
+/* Add these styles to your payment.css file - Replace existing success page styles */
+
+.order-success-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.success-card {
+  background: white;
+  border-radius: 24px;
+  padding: 48px 40px;
+  max-width: 550px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fixed Checkmark Wrapper - Proper Centering */
+.checkmark-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.checkmark-svg {
+  width: 88px;
+  height: 88px;
+  display: block;
+  border-radius: 50%;
+}
+
+/* Circle Animation */
+.checkmark-circle {
+  stroke: #4caf50;
+  stroke-width: 2.5;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: strokeCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+@keyframes strokeCircle {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Checkmark Path Animation */
+.checkmark-check {
+  stroke: #4caf50;
+  stroke-width: 2.5;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: strokeCheck 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.3s forwards;
+}
+
+@keyframes strokeCheck {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.success-title {
+  color: #1a1a2e;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.success-message {
+  color: #666;
+  font-size: 16px;
+  margin: 0 0 32px 0;
+}
+
+.order-details-summary {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.order-details-summary p {
+  margin: 10px 0;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.order-details-summary strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.success-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.view-orders-btn,
+.continue-shopping-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-orders-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.view-orders-btn:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.continue-shopping-btn {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.continue-shopping-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .success-card {
+    padding: 32px 24px;
+  }
+
+  .success-title {
+    font-size: 24px;
+  }
+
+  .checkmark-svg {
+    width: 70px;
+    height: 70px;
+  }
+
+  .view-orders-btn,
+  .continue-shopping-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .order-details-summary {
+    padding: 16px;
+  }
+}

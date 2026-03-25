@@ -143,6 +143,31 @@ export default function Navbar() {
     navigate(path);
   };
 
+  // Handle About Us click - scroll to about section on home page
+  const handleAboutUsClick = () => {
+    if (window.location.pathname === "/") {
+      // If already on home page, scroll to about section
+      const aboutSection = document.getElementById("about-section");
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: "smooth" });
+      } else {
+        // If about section doesn't exist, just go to home page
+        navigate("/");
+      }
+    } else {
+      // If on another page, navigate to home page with a hash
+      navigate("/#about-section");
+      // After navigation, scroll to about section
+      setTimeout(() => {
+        const aboutSection = document.getElementById("about-section");
+        if (aboutSection) {
+          aboutSection.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+    setMobileNavOpen(false);
+  };
+
   return (
     <>
       <header className="navbar">
@@ -152,13 +177,12 @@ export default function Navbar() {
           <span className="logo-text">Skull Cart</span>
         </div>
 
-        {/* ── DESKTOP CENTER LINKS ── */}
+        {/* ── DESKTOP CENTER LINKS (Blog removed) ── */}
         <nav className="desktop-menu">
+          <a onClick={() => navigate("/")}>Home</a>
           <a onClick={() => navigate("/shop")}>Shop</a>
           <a onClick={() => navigate("/deals")}>Deals</a>
-          <a onClick={() => navigate("/")}>About Us</a>{" "}
-          {/* Updated: navigates to homepage */}
-          <a onClick={() => navigate("/blog")}>Blog</a>
+          <a onClick={handleAboutUsClick}>About Us</a>
         </nav>
 
         {/* ── TOP-RIGHT ACTIONS ── */}
@@ -246,7 +270,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ── MOBILE SLIDE-IN DRAWER ── */}
+      {/* ── MOBILE SLIDE-IN DRAWER (Blog removed) ── */}
       {mobileNavOpen && (
         <div
           className="mobile-overlay"
@@ -262,15 +286,16 @@ export default function Navbar() {
           ✕
         </button>
 
+        <a className="drawer-link" onClick={() => goTo("/")}>
+          Home
+        </a>
         <a className="drawer-link" onClick={() => goTo("/shop")}>
           Shop
         </a>
         <a className="drawer-link" onClick={() => goTo("/deals")}>
           Deals
         </a>
-        <a className="drawer-link" onClick={() => goTo("/")}>
-          {" "}
-          {/* Updated: navigates to homepage */}
+        <a className="drawer-link" onClick={handleAboutUsClick}>
           About Us
         </a>
 

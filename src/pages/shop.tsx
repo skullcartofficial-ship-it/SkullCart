@@ -11,12 +11,15 @@ const productList: Product[] = [
     id: 1,
     title: "Wireless Earbuds",
     price: 129,
+    originalPrice: 249, // 48% off
     image: "/2.jpg",
     images: ["1.jpg", "2.jpg", "4.jpg"],
     description:
       "High quality wireless earbuds with noise cancellation and fast charging.",
     category: "Accessories",
     rating: 4.5,
+    sale: false,
+    limitedTimeOffer: true, // This will show the limited time offer badge
     features: {
       subtitle: "True wireless freedom with premium audio experience",
       items: [
@@ -82,6 +85,8 @@ const productList: Product[] = [
       "Advanced smartwatch with health tracking, GPS, and 7-day battery life.",
     category: "Wearables",
     rating: 4.2,
+    sale: true,
+    limitedTimeOffer: false,
     features: {
       subtitle:
         "Can be hung / can be pasted / can be placed / can be hand-held",
@@ -149,6 +154,8 @@ const productList: Product[] = [
       "Powerful gaming laptop with RTX graphics, 16GB RAM and high refresh display.",
     category: "Laptops",
     rating: 4.8,
+    sale: false,
+    limitedTimeOffer: true, // Add limited time offer to gaming laptop
     features: {
       subtitle: "Ultimate gaming performance with cutting-edge technology",
       items: [
@@ -220,6 +227,16 @@ export default function Shop() {
     alert(`${product.title} added to cart!`);
   };
 
+  // Calculate discount percentage
+  const getDiscountPercentage = (product: Product) => {
+    if (product.originalPrice && product.originalPrice > product.price) {
+      return Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100
+      );
+    }
+    return 0;
+  };
+
   const filteredProducts = productList.filter((p) => {
     const matchCategory = category === "All" || p.category === category;
     const matchSearch = p.title.toLowerCase().includes(search.toLowerCase());
@@ -271,26 +288,60 @@ export default function Shop() {
       {/* Products Grid */}
       <div className="products">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((p) => (
-            <div
-              className="product-card"
-              key={p.id}
-              onClick={() => setSelectedProduct(p)}
-            >
-              {p.sale && <span className="sale-badge">Sale</span>}
-              <img src={p.image} alt={p.title} />
-              <h3>{p.title}</h3>
-              <p>₹{p.price}</p>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addToCart(p);
-                }}
+          filteredProducts.map((p) => {
+            const discountPercent = getDiscountPercentage(p);
+
+            return (
+              <div
+                className="product-card"
+                key={p.id}
+                onClick={() => setSelectedProduct(p)}
               >
-                Add to Cart
-              </button>
-            </div>
-          ))
+                {/* Image Container with Badges */}
+                <div className="product-image-container">
+                  <img src={p.image} alt={p.title} />
+
+                  {/* Sale Badge */}
+                  {p.sale && <div className="sale-badge">SALE</div>}
+
+                  {/* Limited Time Offer Badge */}
+                  {p.limitedTimeOffer && (
+                    <div className="limited-offer-badge">
+                      ⏰ LIMITED TIME OFFER
+                    </div>
+                  )}
+                </div>
+
+                <h3>{p.title}</h3>
+
+                {/* Price Section */}
+                <div className="price-section">
+                  {p.originalPrice && p.originalPrice > p.price ? (
+                    <>
+                      <span className="current-price">₹{p.price}</span>
+                      <span className="original-price">₹{p.originalPrice}</span>
+                      {discountPercent > 0 && (
+                        <span className="discount-percent">
+                          ({discountPercent}% OFF)
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span className="current-price">₹{p.price}</span>
+                  )}
+                </div>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(p);
+                  }}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            );
+          })
         ) : (
           <p className="no-products">No products found</p>
         )}

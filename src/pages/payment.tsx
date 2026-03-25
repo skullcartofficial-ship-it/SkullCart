@@ -80,7 +80,7 @@ const Payment = () => {
     }
   }, [location.state]);
 
-  // Format order message for WhatsApp (SENT TO SHOP OWNER)
+  // Format order message for WhatsApp (SENT TO SHOP OWNER ONLY - NO CUSTOMER REDIRECT)
   const formatWhatsAppMessage = (order: any) => {
     const itemsList = order.items
       .map((item: any, index: number) => {
@@ -110,27 +110,35 @@ ${itemsList}
 View order: ${window.location.origin}/orders`;
   };
 
-  // Send WhatsApp notification to SHOP OWNER (only automatic notification)
+  // Send WhatsApp notification to SHOP OWNER only (silent - no redirect, no popup for customer)
   const sendWhatsAppToOwner = (order: any) => {
     const message = formatWhatsAppMessage(order);
-    // YOUR WhatsApp number (shop owner)
-    const ownerWhatsAppNumber = "916303320879"; // Remove the + sign
+    // Shop owner's WhatsApp number
+    const ownerWhatsAppNumber = "916303320879";
     const whatsappUrl = `https://wa.me/${ownerWhatsAppNumber}?text=${encodeURIComponent(
       message
     )}`;
-    window.open(whatsappUrl, "_blank");
+
+    // Create an invisible iframe to send the notification without redirecting customer
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = whatsappUrl;
+    document.body.appendChild(iframe);
+
+    // Remove iframe after a short delay to clean up
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+    }, 1000);
   };
 
   // Send Order Confirmation Email to CUSTOMER
   const sendOrderEmailToCustomer = async (order: any) => {
     try {
-      // Check if customer has email
       if (!order.customerEmail || order.customerEmail === "") {
         console.log("No customer email provided, skipping email");
         return;
       }
 
-      // Prepare items for email
       const itemsForEmail = order.items.map((item: any) => ({
         name: item.product?.title || item.name || item.title || "Product",
         quantity: item.quantity || 1,
@@ -203,11 +211,8 @@ View order: ${window.location.origin}/orders`;
     existingOrders.unshift(newOrder);
     localStorage.setItem("orders", JSON.stringify(existingOrders));
 
-    // ===== SEND NOTIFICATIONS =====
-    // 1. Send WhatsApp notification to SHOP OWNER (automatic)
+    // Send notifications in background
     sendWhatsAppToOwner(newOrder);
-
-    // 2. Send Order Confirmation Email to CUSTOMER
     sendOrderEmailToCustomer(newOrder);
 
     // Clear appropriate storage
@@ -223,7 +228,7 @@ View order: ${window.location.origin}/orders`;
     localStorage.removeItem("selectedAddress");
     localStorage.removeItem("customerDetails");
 
-    // Save order for success page
+    // Show success page
     setPlacedOrder(newOrder);
     setOrderPlaced(true);
   };
@@ -249,15 +254,15 @@ View order: ${window.location.origin}/orders`;
     setUpiId(e.target.value);
   };
 
-  // Success Page - WhatsApp option REMOVED
+  // Success Page Component - Fixed Green Tick Animation
   if (orderPlaced && placedOrder) {
     return (
       <div className="order-success-page">
         <div className="success-card">
-          {/* Animated Checkmark */}
-          <div className="checkmark-animation">
+          {/* Animated Checkmark - Properly Centered */}
+          <div className="checkmark-wrapper">
             <svg
-              className="checkmark"
+              className="checkmark-svg"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 52 52"
             >
@@ -276,9 +281,9 @@ View order: ${window.location.origin}/orders`;
             </svg>
           </div>
 
-          <h1 className="success-title">Order Placed Successfully! 🎉</h1>
+          <h1 className="success-title">Order Placed Successfully! 🎁</h1>
           <p className="success-message">
-            Thank you for shopping with Skull Cart 💀
+            Thank you for shopping with Skull Cart 🛒
           </p>
 
           <div className="order-details-summary">
@@ -302,8 +307,6 @@ View order: ${window.location.origin}/orders`;
                 : "No email provided"}
             </p>
           </div>
-
-          {/* WhatsApp share section REMOVED - No button for customer to share */}
 
           <div className="success-actions">
             <button
@@ -330,7 +333,6 @@ View order: ${window.location.origin}/orders`;
       <div className="payment-methods">
         <h2>Customer Details</h2>
 
-        {/* Display Customer Information */}
         <div
           className="customer-info"
           style={{
@@ -520,8 +522,8 @@ View order: ${window.location.origin}/orders`;
             color: "#666",
           }}
         >
-          <p>📱 WhatsApp notification will be sent to shop owner</p>
-          <p>📧 Order confirmation email will be sent to your email address</p>
+          <p>📱 Order confirmation will be sent to your email</p>
+          <p>📧 Check your inbox for order details</p>
         </div>
       </div>
     </div>
