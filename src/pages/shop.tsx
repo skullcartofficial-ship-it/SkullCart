@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./shop.css";
 import { getCart, addToCart as addItemToCart, CartItem } from "../cart";
 import Navbar from "../components/Navbar";
 import ProductDetails from "./ProductsDetails";
 import { Product } from "../types";
+
+// ─── Static Data ──────────────────────────────────────────────────────────────
 
 const productList: Product[] = [
   {
@@ -216,7 +218,6 @@ const productList: Product[] = [
   },
 ];
 
-// Add more products with various prices for better filtering demo
 const additionalProducts: Product[] = [
   {
     id: 4,
@@ -273,7 +274,6 @@ const additionalProducts: Product[] = [
 
 const allProducts = [...productList, ...additionalProducts];
 
-// Price range options
 const PRICE_RANGES = [
   { label: "Up to ₹15,000", min: 0, max: 15000 },
   { label: "₹15,000 - ₹27,000", min: 15000, max: 27000 },
@@ -281,8 +281,92 @@ const PRICE_RANGES = [
   { label: "Over ₹42,500", min: 42500, max: Infinity },
 ];
 
+type SortOption =
+  | "price-low-high"
+  | "price-high-low"
+  | "newest-arrivals"
+  | "best-sellers"
+  | "limited-time-deals"
+  | "offers";
+
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: "price-low-high", label: "Price: Low to High" },
+  { value: "price-high-low", label: "Price: High to Low" },
+  { value: "newest-arrivals", label: "Newest Arrivals" },
+  { value: "best-sellers", label: "Best Sellers" },
+  { value: "limited-time-deals", label: "Limited Time Deals" },
+  { value: "offers", label: "Offers" },
+];
+
+// ─── Pure helpers (outside component — no state deps) ─────────────────────────
+
+// FIX: Moved outside component — these are pure functions with no state
+// dependency, so redefining them on every render was wasteful
+
+function getDiscountPercentage(product: Product): number {
+  if (product.originalPrice && product.originalPrice > product.price) {
+    return Math.round(
+      ((product.originalPrice - product.price) / product.originalPrice) * 100
+    );
+  }
+  return 0;
+}
+
+function getPriceRange(price: number): string {
+  if (price <= 15000) return "Up to ₹15,000";
+  if (price <= 27000) return "₹15,000 - ₹27,000";
+  if (price <= 42500) return "₹27,000 - ₹42,500";
+  return "Over ₹42,500";
+}
+
+function getPriceRangeCount(rangeLabel: string): number {
+  return allProducts.filter((p) => getPriceRange(p.price) === rangeLabel)
+    .length;
+}
+
+// FIX: sortProducts moved outside component and takes sortBy as a parameter
+// instead of closing over state — eliminates stale closure bug
+function sortProducts(products: Product[], sortBy: SortOption): Product[] {
+  const sorted = [...products];
+
+  switch (sortBy) {
+    case "price-low-high":
+      return sorted.sort((a, b) => a.price - b.price);
+
+    case "price-high-low":
+      return sorted.sort((a, b) => b.price - a.price);
+
+    case "newest-arrivals":
+      // FIX: ids are numbers — subtraction is safe, but guard with Number()
+      // to prevent NaN if id is ever a string at runtime
+      return sorted.sort((a, b) => Number(b.id) - Number(a.id));
+
+    case "best-sellers":
+      // FIX: use ?? instead of || so a rating of 0 is not treated as falsy
+      return sorted.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+
+    case "limited-time-deals":
+      return sorted.sort((a, b) => {
+        if (a.limitedTimeOffer && !b.limitedTimeOffer) return -1;
+        if (!a.limitedTimeOffer && b.limitedTimeOffer) return 1;
+        return 0;
+      });
+
+    case "offers":
+      return sorted.sort(
+        (a, b) => getDiscountPercentage(b) - getDiscountPercentage(a)
+      );
+
+    default:
+      return sorted;
+  }
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export default function Shop() {
   const navigate = useNavigate();
+
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -290,30 +374,14 @@ export default function Shop() {
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
     null
   );
+  const [sortBy, setSortBy] = useState<SortOption>("price-low-high");
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
-  const addToCart = (product: Product) => {
+  const addToCart = useCallback((product: Product) => {
     addItemToCart(product);
     setCart(getCart());
     alert(`${product.title} added to cart!`);
-  };
-
-  // Calculate discount percentage
-  const getDiscountPercentage = (product: Product) => {
-    if (product.originalPrice && product.originalPrice > product.price) {
-      return Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
-      );
-    }
-    return 0;
-  };
-
-  // Get price range for a product
-  const getPriceRange = (price: number): string => {
-    if (price <= 15000) return "Up to ₹15,000";
-    if (price <= 27000) return "₹15,000 - ₹27,000";
-    if (price <= 42500) return "₹27,000 - ₹42,500";
-    return "Over ₹42,500";
-  };
+  }, []);
 
   const filteredProducts = allProducts.filter((p) => {
     const matchCategory = category === "All" || p.category === category;
@@ -324,28 +392,23 @@ export default function Shop() {
     return matchCategory && matchSearch && matchPriceRange;
   });
 
-  // Get price range statistics
-  const getPriceRangeCount = (rangeLabel: string) => {
-    return allProducts.filter((p) => getPriceRange(p.price) === rangeLabel)
-      .length;
-  };
+  // FIX: sortProducts now receives sortBy explicitly — no stale closure
+  const sortedAndFilteredProducts = sortProducts(filteredProducts, sortBy);
 
   return (
     <div className="shop-page">
       <Navbar />
 
-      {/* Back Button */}
       <div className="back-button-container">
         <button className="back-to-home-btn" onClick={() => navigate("/")}>
           ← Home
         </button>
       </div>
 
-      {/* Main Content with Sidebar Layout */}
       <div className="shop-main-layout">
-        {/* Left Sidebar - Filters */}
+        {/* Left Sidebar */}
         <aside className="shop-sidebar">
-          {/* Search Bar */}
+          {/* Search */}
           <div className="sidebar-search">
             <input
               type="text"
@@ -380,7 +443,7 @@ export default function Shop() {
             </div>
           </div>
 
-          {/* Price Filter Section - Now on Left Side */}
+          {/* Price Filter */}
           <div className="sidebar-section">
             <div className="price-filter-header">
               <h3>Price</h3>
@@ -412,30 +475,70 @@ export default function Shop() {
               })}
             </div>
           </div>
+
+          {/* Sort By */}
+          <div className="sidebar-section sort-by-section">
+            <div
+              className="sort-by-header clickable"
+              onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+            >
+              <h3>SORT BY</h3>
+              <span
+                className={`dropdown-arrow ${isSortDropdownOpen ? "open" : ""}`}
+              >
+                ▼
+              </span>
+            </div>
+
+            <div
+              className={`sort-dropdown-container ${
+                isSortDropdownOpen ? "open" : ""
+              }`}
+            >
+              <div className="sort-options-list">
+                {SORT_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    className={`sort-option-item ${
+                      sortBy === option.value ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      setSortBy(option.value);
+                      setIsSortDropdownOpen(false);
+                    }}
+                  >
+                    <span className="sort-option-label">{option.label}</span>
+                    {sortBy === option.value && (
+                      <span className="active-indicator">✓</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <div className="sort-results-info">
+                <span className="sort-results-count">
+                  {sortedAndFilteredProducts.length}
+                </span>
+                <span className="sort-results-text">product(s) found</span>
+              </div>
+            </div>
+          </div>
         </aside>
 
-        {/* Right Content - Products Grid */}
+        {/* Products Grid */}
         <main className="shop-main-content">
-          {/* Products Grid */}
           <div className="products">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((p) => {
+            {sortedAndFilteredProducts.length > 0 ? (
+              sortedAndFilteredProducts.map((p) => {
                 const discountPercent = getDiscountPercentage(p);
-
                 return (
                   <div
                     className="product-card"
                     key={p.id}
                     onClick={() => setSelectedProduct(p)}
                   >
-                    {/* Image Container with Badges */}
                     <div className="product-image-container">
                       <img src={p.image} alt={p.title} />
-
-                      {/* Sale Badge */}
                       {p.sale && <div className="sale-badge">SALE</div>}
-
-                      {/* Limited Time Offer Badge */}
                       {p.limitedTimeOffer && (
                         <div className="limited-offer-badge">
                           ⏰ LIMITED TIME OFFER
@@ -445,7 +548,6 @@ export default function Shop() {
 
                     <h3>{p.title}</h3>
 
-                    {/* Price Section */}
                     <div className="price-section">
                       {p.originalPrice && p.originalPrice > p.price ? (
                         <>

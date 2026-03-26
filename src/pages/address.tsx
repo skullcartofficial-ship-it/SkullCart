@@ -1,212 +1,197 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import { setCurrentUser, CartItem } from "../cart";
+import userDataService, {
+  Address as SavedAddress,
+} from "../services/userDataService";
 import "./address.css";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface AddressFormState {
+  name: string;
+  countryCode: string;
+  phone: string;
+  email: string;
+  doorNo: string;
+  street: string;
+  city: string;
+  pincode: string;
+}
+
+const EMPTY_FORM: AddressFormState = {
+  name: "",
+  countryCode: "+91",
+  phone: "",
+  email: "",
+  doorNo: "",
+  street: "",
+  city: "",
+  pincode: "",
+};
+
+const EMAIL_REGEX = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+
+// ─── Validation ───────────────────────────────────────────────────────────────
+
+function validateForm(form: AddressFormState): string | null {
+  if (!form.name.trim()) return "Please enter your full name";
+  if (!form.email.trim()) return "Please enter your email address";
+  if (!EMAIL_REGEX.test(form.email))
+    return "Please enter a valid email address";
+  if (!/^[0-9]{10}$/.test(form.phone))
+    return "Enter a valid 10-digit phone number";
+  if (!form.doorNo.trim()) return "Please enter your door/flat number";
+  if (!form.street.trim()) return "Please enter your street address";
+  if (!form.city.trim()) return "Please enter your city";
+  if (!/^[0-9]{6}$/.test(form.pincode)) return "Enter a valid 6-digit pincode";
+  return null;
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Address() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
 
-  const [addresses, setAddresses] = useState<any[]>([]);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [addresses, setAddresses] = useState<SavedAddress[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState<AddressFormState>(EMPTY_FORM);
 
-  const [form, setForm] = useState({
-    name: "",
-    countryCode: "+91",
-    phone: "",
-    email: "",
-    doorNo: "",
-    street: "",
-    city: "",
-    pincode: "",
-  });
+  // ── Data loaders ─────────────────────────────────────────────────────────────
 
-  // Get current user
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        loadAddressesForUser(user.email);
-      } else {
-        // If not logged in, redirect to login
-        navigate("/login");
+  const loadCartData = useCallback((email: string) => {
+    try {
+      const checkoutCart = localStorage.getItem("checkoutCart");
+      const checkoutTotal = localStorage.getItem("checkoutTotal");
+
+      if (checkoutCart && checkoutCart !== "[]") {
+        const parsed: CartItem[] = JSON.parse(checkoutCart);
+        setCartItems(parsed);
+        setTotal(parseFloat(checkoutTotal ?? "0"));
+        return;
       }
-    });
-    return () => unsubscribe();
-  }, [navigate]);
 
-  // Load cart data and addresses
-  useEffect(() => {
-    console.log("=== ADDRESS PAGE LOADED ===");
-
-    // Try to get cart from checkoutCart first
-    let checkoutCart = localStorage.getItem("checkoutCart");
-    let checkoutTotal = localStorage.getItem("checkoutTotal");
-
-    console.log("checkoutCart from localStorage:", checkoutCart);
-    console.log("checkoutTotal from localStorage:", checkoutTotal);
-
-    if (checkoutCart && checkoutCart !== "[]") {
-      const parsedCart = JSON.parse(checkoutCart);
-      setCartItems(parsedCart);
-      setTotal(parseFloat(checkoutTotal || "0"));
-      console.log("✅ Loaded from checkoutCart:", parsedCart.length, "items");
-    } else {
-      const regularCart = JSON.parse(localStorage.getItem("cart") || "[]");
-      console.log("Regular cart from localStorage:", regularCart);
-
-      if (regularCart.length > 0) {
-        setCartItems(regularCart);
-        const calculatedTotal = regularCart.reduce(
-          (sum: number, item: any) => sum + item.price * (item.quantity || 1),
-          0
-        );
-        setTotal(calculatedTotal);
-        console.log(
-          "✅ Loaded from regular cart:",
-          regularCart.length,
-          "items"
-        );
-      } else {
-        console.log("❌ No cart data found!");
-      }
+      const cart = userDataService.getUserCart(email);
+      setCartItems(cart);
+      setTotal(
+        cart.reduce((sum, item) => sum + item.price * (item.quantity ?? 1), 0)
+      );
+    } catch {
+      setCartItems([]);
+      setTotal(0);
     }
-
-    setLoading(false);
   }, []);
 
-  // Load addresses for specific user email
-  const loadAddressesForUser = (userEmail: string | null) => {
-    if (!userEmail) return;
+  const loadAddressesForUser = useCallback((email: string) => {
+    try {
+      const userAddresses = userDataService.getUserAddresses(email);
+      setAddresses(userAddresses);
 
-    // Get all addresses from localStorage
-    const allAddresses = JSON.parse(localStorage.getItem("addresses") || "{}");
+      const savedId = userDataService.getSelectedAddressId(email);
+      if (savedId && userAddresses.length > 0) {
+        const index = userAddresses.findIndex(
+          (addr) => String(addr.id) === savedId
+        );
+        if (index !== -1) setSelectedIndex(index);
+      }
+    } catch {
+      setAddresses([]);
+    }
+  }, []);
 
-    // Get addresses for this specific user
-    const userAddresses = allAddresses[userEmail] || [];
-    setAddresses(userAddresses);
+  // ── Auth ─────────────────────────────────────────────────────────────────────
 
-    console.log(`Loaded ${userAddresses.length} addresses for ${userEmail}`);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (!firebaseUser?.email) {
+        navigate("/login");
+        return;
+      }
+
+      setCurrentUser(firebaseUser.email);
+      setUserEmail(firebaseUser.email);
+      loadAddressesForUser(firebaseUser.email);
+      loadCartData(firebaseUser.email);
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, [navigate, loadAddressesForUser, loadCartData]);
+
+  // ── Persist helpers ───────────────────────────────────────────────────────────
+
+  const persistSelected = (email: string, address: SavedAddress | null) => {
+    if (address) {
+      userDataService.setSelectedAddressId(email, String(address.id));
+    } else {
+      userDataService.clearSelectedAddressId(email);
+    }
   };
 
-  // Save addresses for current user
-  const saveAddressesForUser = (userEmail: string, addressesToSave: any[]) => {
-    if (!userEmail) return;
-
-    // Get all addresses
-    const allAddresses = JSON.parse(localStorage.getItem("addresses") || "{}");
-
-    // Update addresses for this user
-    allAddresses[userEmail] = addressesToSave;
-
-    // Save back to localStorage
-    localStorage.setItem("addresses", JSON.stringify(allAddresses));
-
-    console.log(`Saved ${addressesToSave.length} addresses for ${userEmail}`);
-  };
+  // ── Handlers ──────────────────────────────────────────────────────────────────
 
   const saveAddress = () => {
-    if (!user?.email) {
-      alert("Please login to save address");
+    if (!userEmail) {
       navigate("/login");
       return;
     }
 
-    // Validation
-    if (!form.name.trim()) {
-      alert("Please enter your full name");
+    const error = validateForm(form);
+    if (error) {
+      alert(error);
       return;
     }
 
-    // Email validation
-    if (!form.email.trim()) {
-      alert("Please enter your email address");
-      return;
-    }
-    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      alert("Please enter a valid email address");
-      return;
-    }
-
-    // Phone validation (10 digits)
-    if (!/^[0-9]{10}$/.test(form.phone)) {
-      alert("Enter a valid 10-digit phone number");
-      return;
-    }
-
-    // Door No validation
-    if (!form.doorNo.trim()) {
-      alert("Please enter your door/flat number");
-      return;
-    }
-
-    // Street validation
-    if (!form.street.trim()) {
-      alert("Please enter your street address");
-      return;
-    }
-
-    // City validation
-    if (!form.city.trim()) {
-      alert("Please enter your city");
-      return;
-    }
-
-    // Pincode validation (6 digits for India)
-    if (!/^[0-9]{6}$/.test(form.pincode)) {
-      alert("Enter a valid 6-digit pincode");
-      return;
-    }
-
-    // Create new address object with timestamp
-    const newAddress = {
+    const newAddress: SavedAddress = {
       ...form,
-      id: Date.now(), // Add unique ID
+      id: Date.now(),
       createdAt: new Date().toISOString(),
     };
 
-    const newAddresses = [...addresses, newAddress];
-    setAddresses(newAddresses);
+    const updated = [...addresses, newAddress];
+    setAddresses(updated);
 
-    // Save to localStorage with user email
-    saveAddressesForUser(user.email, newAddresses);
+    const saved = userDataService.saveUserAddresses(userEmail, updated);
+    if (!saved) {
+      alert("Error saving address. Please try again.");
+      return;
+    }
 
-    // Reset form
-    setForm({
-      name: "",
-      countryCode: "+91",
-      phone: "",
-      email: "",
-      doorNo: "",
-      street: "",
-      city: "",
-      pincode: "",
-    });
-
-    // Auto-select the newly added address
-    setSelected(newAddresses.length - 1);
-
+    const newIndex = updated.length - 1;
+    setSelectedIndex(newIndex);
+    persistSelected(userEmail, newAddress);
+    setForm(EMPTY_FORM);
     alert("Address saved successfully!");
   };
 
   const deleteAddress = (index: number) => {
-    if (!user?.email) return;
+    if (!userEmail) return;
 
     const updated = addresses.filter((_, i) => i !== index);
     setAddresses(updated);
+    userDataService.saveUserAddresses(userEmail, updated);
 
-    // Save updated addresses for this user
-    saveAddressesForUser(user.email, updated);
-
-    if (selected === index) {
-      setSelected(null);
-    } else if (selected !== null && selected > index) {
-      setSelected(selected - 1);
+    if (selectedIndex === index) {
+      setSelectedIndex(null);
+      persistSelected(userEmail, null);
+    } else if (selectedIndex !== null && selectedIndex > index) {
+      const newIndex = selectedIndex - 1;
+      setSelectedIndex(newIndex);
+      persistSelected(userEmail, updated[newIndex]);
     }
+
+    alert("Address deleted successfully!");
+  };
+
+  const selectAddress = (index: number) => {
+    if (!userEmail) return;
+    setSelectedIndex(index);
+    persistSelected(userEmail, addresses[index]);
   };
 
   const continueCheckout = () => {
@@ -214,58 +199,58 @@ export default function Address() {
       alert("Please add a delivery address first");
       return;
     }
-
-    if (selected === null) {
+    if (selectedIndex === null) {
       alert("Please select a delivery address");
       return;
     }
-
     if (cartItems.length === 0) {
       alert("Your cart is empty. Please add items to cart first.");
-      navigate("/cart");
+      navigate("/shop");
       return;
     }
 
-    const selectedAddress = addresses[selected];
-
-    const customerDetails = {
-      name: selectedAddress.name,
-      phone: selectedAddress.phone,
-      email: selectedAddress.email,
-      address: `${selectedAddress.doorNo}, ${selectedAddress.street}, ${selectedAddress.city} - ${selectedAddress.pincode}`,
-    };
-
-    localStorage.setItem("customerDetails", JSON.stringify(customerDetails));
+    const addr = addresses[selectedIndex];
+    localStorage.setItem(
+      "customerDetails",
+      JSON.stringify({
+        name: addr.name,
+        phone: addr.phone,
+        email: addr.email,
+        address: `${addr.doorNo}, ${addr.street}, ${addr.city} - ${addr.pincode}`,
+      })
+    );
     localStorage.setItem("paymentCart", JSON.stringify(cartItems));
     localStorage.setItem("paymentTotal", total.toString());
 
     navigate("/payment");
   };
 
-  const calculateTotalItems = () => {
-    return cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  };
+  const totalItems = cartItems.reduce(
+    (sum, item) => sum + (item.quantity ?? 1),
+    0
+  );
+
+  // ── Render ────────────────────────────────────────────────────────────────────
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
-  if (!user) {
-    return <div className="loading">Redirecting to login...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading your address book...</p>
+      </div>
+    );
   }
 
   return (
     <div className="address-page">
       <h1>Choose Delivery Address</h1>
 
-      {/* User Info */}
       <div className="user-info-banner">
         <p>
-          Logged in as: <strong>{user.email}</strong>
+          Logged in as: <strong>{userEmail}</strong>
         </p>
       </div>
 
-      {/* Show cart warning if empty */}
       {cartItems.length === 0 && (
         <div className="cart-warning">
           <p>⚠️ Your cart is empty. Please add items before proceeding.</p>
@@ -275,36 +260,49 @@ export default function Address() {
         </div>
       )}
 
+      {/* Address List */}
       <div className="address-list">
-        {addresses.map((addr, index) => (
-          <div
-            key={addr.id || index}
-            className={`address-card ${selected === index ? "active" : ""}`}
-            onClick={() => setSelected(index)}
-          >
-            <button
-              className="delete-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteAddress(index);
-              }}
-            >
-              ✕
-            </button>
-            <h3>{addr.name}</h3>
-            <p>
-              {addr.doorNo}, {addr.street}
-            </p>
-            <p>{addr.city}</p>
-            <p>{addr.pincode}</p>
-            <p>
-              {addr.countryCode} {addr.phone}
-            </p>
-            <p className="email-field">{addr.email}</p>
+        {addresses.length === 0 ? (
+          <div className="no-addresses">
+            <p>No addresses saved yet. Add your first address below!</p>
           </div>
-        ))}
+        ) : (
+          addresses.map((addr, index) => (
+            <div
+              key={addr.id}
+              className={`address-card ${
+                selectedIndex === index ? "active" : ""
+              }`}
+              onClick={() => selectAddress(index)}
+            >
+              <button
+                className="delete-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteAddress(index);
+                }}
+              >
+                ✕
+              </button>
+              <h3>{addr.name}</h3>
+              <p>
+                {addr.doorNo}, {addr.street}
+              </p>
+              <p>{addr.city}</p>
+              <p>{addr.pincode}</p>
+              <p>
+                {addr.countryCode} {addr.phone}
+              </p>
+              <p className="email-field">{addr.email}</p>
+              <small className="address-date">
+                Added: {new Date(addr.createdAt).toLocaleDateString()}
+              </small>
+            </div>
+          ))
+        )}
       </div>
 
+      {/* Add New Address Form */}
       <h2>Add New Address</h2>
 
       <div className="address-form">
@@ -313,7 +311,6 @@ export default function Address() {
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
-
         <div className="phone-field">
           <select
             value={form.countryCode}
@@ -324,45 +321,38 @@ export default function Address() {
             <option value="+44">🇬🇧 +44 (UK)</option>
             <option value="+61">🇦🇺 +61 (Australia)</option>
           </select>
-
           <input
             placeholder="Phone Number * (10 digits)"
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
           />
         </div>
-
         <input
           type="email"
           placeholder="Email Address *"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
-
         <input
           placeholder="Door No / Flat No *"
           value={form.doorNo}
           onChange={(e) => setForm({ ...form, doorNo: e.target.value })}
         />
-
         <input
           placeholder="Street Address *"
           value={form.street}
           onChange={(e) => setForm({ ...form, street: e.target.value })}
         />
-
         <input
           placeholder="City *"
           value={form.city}
           onChange={(e) => setForm({ ...form, city: e.target.value })}
         />
-
         <input
           placeholder="Pincode * (6 digits)"
           value={form.pincode}
           onChange={(e) => setForm({ ...form, pincode: e.target.value })}
         />
-
         <button onClick={saveAddress}>Save Address</button>
       </div>
 
@@ -374,12 +364,13 @@ export default function Address() {
       {cartItems.length > 0 && (
         <div className="order-summary-mini">
           <h3>Order Summary</h3>
-          <p>Total Items: {calculateTotalItems()}</p>
+          <p>Total Items: {totalItems}</p>
           {cartItems.slice(0, 3).map((item, idx) => (
             <div key={idx} className="summary-item">
-              <span>{item.title || item.name}</span>
+              {/* FIX: item.name doesn't exist on CartItem — use title only */}
+              <span>{item.title ?? "Unnamed Item"}</span>
               <span>
-                ₹{item.price} × {item.quantity || 1}
+                ₹{item.price} × {item.quantity ?? 1}
               </span>
             </div>
           ))}
