@@ -1,10 +1,35 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./shop.css";
 import { getCart, addToCart as addItemToCart, CartItem } from "../cart";
 import Navbar from "../components/Navbar";
 import ProductDetails from "./ProductsDetails";
 import { Product } from "../types";
+
+// ─── Scroll Animation Hook ────────────────────────────────────────────────────
+
+const useShopScrollAnimation = () => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("shop-visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    // Observe all animatable elements
+    const elements = document.querySelectorAll(
+      ".shop-fade-in, .shop-slide-left, .shop-slide-right, .shop-card-animate"
+    );
+    elements.forEach((el) => observer.observe(el));
+
+    return () => elements.forEach((el) => observer.unobserve(el));
+  });
+};
 
 // ─── Static Data ──────────────────────────────────────────────────────────────
 
@@ -75,7 +100,7 @@ const productList: Product[] = [
       "Warranty Card",
     ],
     lightDescription:
-      "Experience true wireless freedom with premium sound quality and active noise cancellation for immersive audio.",
+      "Experience true wireless freedom with premium sound quality and active noise cancellation.",
   },
   {
     id: 2,
@@ -298,11 +323,6 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "offers", label: "Offers" },
 ];
 
-// ─── Pure helpers (outside component — no state deps) ─────────────────────────
-
-// FIX: Moved outside component — these are pure functions with no state
-// dependency, so redefining them on every render was wasteful
-
 function getDiscountPercentage(product: Product): number {
   if (product.originalPrice && product.originalPrice > product.price) {
     return Math.round(
@@ -324,39 +344,27 @@ function getPriceRangeCount(rangeLabel: string): number {
     .length;
 }
 
-// FIX: sortProducts moved outside component and takes sortBy as a parameter
-// instead of closing over state — eliminates stale closure bug
 function sortProducts(products: Product[], sortBy: SortOption): Product[] {
   const sorted = [...products];
-
   switch (sortBy) {
     case "price-low-high":
       return sorted.sort((a, b) => a.price - b.price);
-
     case "price-high-low":
       return sorted.sort((a, b) => b.price - a.price);
-
     case "newest-arrivals":
-      // FIX: ids are numbers — subtraction is safe, but guard with Number()
-      // to prevent NaN if id is ever a string at runtime
       return sorted.sort((a, b) => Number(b.id) - Number(a.id));
-
     case "best-sellers":
-      // FIX: use ?? instead of || so a rating of 0 is not treated as falsy
       return sorted.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
-
     case "limited-time-deals":
       return sorted.sort((a, b) => {
         if (a.limitedTimeOffer && !b.limitedTimeOffer) return -1;
         if (!a.limitedTimeOffer && b.limitedTimeOffer) return 1;
         return 0;
       });
-
     case "offers":
       return sorted.sort(
         (a, b) => getDiscountPercentage(b) - getDiscountPercentage(a)
       );
-
     default:
       return sorted;
   }
@@ -377,6 +385,9 @@ export default function Shop() {
   const [sortBy, setSortBy] = useState<SortOption>("price-low-high");
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
+  // Run scroll animation observer after every render so new cards get observed
+  useShopScrollAnimation();
+
   const addToCart = useCallback((product: Product) => {
     addItemToCart(product);
     setCart(getCart());
@@ -392,24 +403,24 @@ export default function Shop() {
     return matchCategory && matchSearch && matchPriceRange;
   });
 
-  // FIX: sortProducts now receives sortBy explicitly — no stale closure
   const sortedAndFilteredProducts = sortProducts(filteredProducts, sortBy);
 
   return (
     <div className="shop-page">
       <Navbar />
 
-      <div className="back-button-container">
+      {/* Back button animates in from left */}
+      <div className="back-button-container shop-slide-left">
         <button className="back-to-home-btn" onClick={() => navigate("/")}>
           ← Home
         </button>
       </div>
 
       <div className="shop-main-layout">
-        {/* Left Sidebar */}
-        <aside className="shop-sidebar">
+        {/* Sidebar slides in from left */}
+        <aside className="shop-sidebar shop-slide-left">
           {/* Search */}
-          <div className="sidebar-search">
+          <div className="sidebar-search shop-fade-in">
             <input
               type="text"
               placeholder="Search products..."
@@ -428,7 +439,10 @@ export default function Shop() {
           </div>
 
           {/* Categories */}
-          <div className="sidebar-section">
+          <div
+            className="sidebar-section shop-fade-in"
+            style={{ animationDelay: "0.1s" }}
+          >
             <h3>Categories</h3>
             <div className="categories-list">
               {["All", "Laptops", "Wearables", "Accessories"].map((c) => (
@@ -444,7 +458,10 @@ export default function Shop() {
           </div>
 
           {/* Price Filter */}
-          <div className="sidebar-section">
+          <div
+            className="sidebar-section shop-fade-in"
+            style={{ animationDelay: "0.2s" }}
+          >
             <div className="price-filter-header">
               <h3>Price</h3>
               {selectedPriceRange && (
@@ -477,7 +494,10 @@ export default function Shop() {
           </div>
 
           {/* Sort By */}
-          <div className="sidebar-section sort-by-section">
+          <div
+            className="sidebar-section sort-by-section shop-fade-in"
+            style={{ animationDelay: "0.3s" }}
+          >
             <div
               className="sort-by-header clickable"
               onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
@@ -489,7 +509,6 @@ export default function Shop() {
                 ▼
               </span>
             </div>
-
             <div
               className={`sort-dropdown-container ${
                 isSortDropdownOpen ? "open" : ""
@@ -528,12 +547,13 @@ export default function Shop() {
         <main className="shop-main-content">
           <div className="products">
             {sortedAndFilteredProducts.length > 0 ? (
-              sortedAndFilteredProducts.map((p) => {
+              sortedAndFilteredProducts.map((p, index) => {
                 const discountPercent = getDiscountPercentage(p);
                 return (
                   <div
-                    className="product-card"
+                    className="product-card shop-card-animate"
                     key={p.id}
+                    style={{ animationDelay: `${(index % 4) * 0.08}s` }}
                     onClick={() => setSelectedProduct(p)}
                   >
                     <div className="product-image-container">
@@ -578,7 +598,7 @@ export default function Shop() {
                 );
               })
             ) : (
-              <p className="no-products">No products found</p>
+              <p className="no-products shop-fade-in">No products found</p>
             )}
           </div>
         </main>
@@ -591,6 +611,102 @@ export default function Shop() {
           onClose={() => setSelectedProduct(null)}
         />
       )}
+
+      {/* ── Animation styles injected here so no extra CSS file needed ── */}
+      <style>{`
+        /* ── Base states (hidden before scroll triggers) ── */
+        .shop-fade-in {
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+        }
+        .shop-slide-left {
+          opacity: 0;
+          transform: translateX(-40px);
+          transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+        }
+        .shop-slide-right {
+          opacity: 0;
+          transform: translateX(40px);
+          transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+        }
+        .shop-card-animate {
+          opacity: 0;
+          transform: translateY(32px) scale(0.97);
+          transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        /* ── Visible state (added by IntersectionObserver) ── */
+        .shop-fade-in.shop-visible,
+        .shop-slide-left.shop-visible,
+        .shop-slide-right.shop-visible {
+          opacity: 1;
+          transform: translate(0, 0);
+        }
+        .shop-card-animate.shop-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        /* ── Staggered delays for sidebar sections ── */
+        .shop-fade-in:nth-child(1) { transition-delay: 0s; }
+        .shop-fade-in:nth-child(2) { transition-delay: 0.08s; }
+        .shop-fade-in:nth-child(3) { transition-delay: 0.16s; }
+        .shop-fade-in:nth-child(4) { transition-delay: 0.24s; }
+
+        /* ── Hover lift on product cards ── */
+        .product-card {
+          transition:
+            transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.5s ease-out !important;
+        }
+        .product-card:hover {
+          transform: translateY(-8px) scale(1.02) !important;
+          box-shadow: 0 16px 32px rgba(0, 0, 0, 0.14) !important;
+        }
+
+        /* ── Smooth image zoom on card hover ── */
+        .product-image-container {
+          overflow: hidden;
+        }
+        .product-image-container img {
+          transition: transform 0.5s ease;
+        }
+        .product-card:hover .product-image-container img {
+          transform: scale(1.07);
+        }
+
+        /* ── Category + price buttons pulse on click ── */
+        .category-btn,
+        .price-range-btn {
+          transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+        }
+        .category-btn:active,
+        .price-range-btn:active {
+          transform: scale(0.95);
+        }
+
+        /* ── Add to Cart button animation ── */
+        .product-card button {
+          transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .product-card button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .product-card button:active {
+          transform: scale(0.96);
+        }
+
+        /* ── Sidebar slide-in gets a slight delay so it feels staged ── */
+        .shop-sidebar.shop-slide-left {
+          transition-delay: 0.05s;
+        }
+        .back-button-container.shop-slide-left {
+          transition-delay: 0s;
+        }
+      `}</style>
     </div>
   );
 }

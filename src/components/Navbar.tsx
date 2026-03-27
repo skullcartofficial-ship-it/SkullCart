@@ -6,6 +6,10 @@ import { getCart } from "../cart";
 import EditProfile from "./EditProfile";
 import "./Navbar.css";
 
+// Images are in the public folder, so use relative path from public
+// Since images are in public folder, you can reference them directly
+const skullLogo = "/orangecatfinals.png"; // Using skullcart.png from public folder
+
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -171,10 +175,10 @@ export default function Navbar() {
   return (
     <>
       <header className="navbar">
-        {/* ── LOGO (top-left) with skull icon and text ── */}
+        {/* ── LOGO (top-left) with skull image and text ── */}
         <div className="logo" onClick={() => navigate("/")}>
-          <span className="skull-icon">💀</span>
-          <span className="logo-text">Skull Cart</span>
+          <img src={skullLogo} alt="ArmorX Logo" className="skull-image" />
+          <span className="logo-text">ArmorX</span>
         </div>
 
         {/* ── DESKTOP CENTER LINKS (Blog removed) ── */}
