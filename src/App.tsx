@@ -410,7 +410,7 @@ function Home() {
     >
       <Navbar />
 
-      {/* HERO */}
+      {/* HERO SECTION - FIXED WITH CAT VISIBLE ON MOBILE */}
       <div
         style={{
           position: "relative",
@@ -452,13 +452,17 @@ function Home() {
             zIndex: 2,
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center",
             height: "100%",
             padding: "0 5%",
             boxSizing: "border-box",
+            flexDirection: "column",
+            gap: "30px",
           }}
         >
-          <div style={{ flex: 1, animation: "fadeInLeft 1s ease-out" }}>
+          <div
+            style={{ textAlign: "center", animation: "fadeInLeft 1s ease-out" }}
+          >
             <h1
               style={{
                 fontSize: "clamp(28px, 5vw, 56px)",
@@ -500,14 +504,15 @@ function Home() {
               Shop Now
             </button>
           </div>
-          <div className="hero-image-wrapper">
+          <div style={{ animation: "fadeInRight 1s ease-out" }}>
             <img
               src="/orangecatfinals.png"
               alt="Skull Cart"
               style={{
                 maxWidth: "100%",
+                width: "auto",
                 height: "auto",
-                maxHeight: "380px",
+                maxHeight: "clamp(180px, 30vh, 380px)",
                 animation: "float 3s ease-in-out infinite",
                 filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.3))",
               }}
@@ -1004,14 +1009,6 @@ function Home() {
           gap: 16px;
         }
 
-        /* ── Hero cat image ── */
-        .hero-image-wrapper {
-          flex: 1;
-          display: flex;
-          justify-content: center;
-          animation: fadeInRight 1s ease-out;
-        }
-
         /* ── Product card hover ── */
         .product-card-hover:hover {
           transform: translateY(-8px) !important;
@@ -1019,9 +1016,10 @@ function Home() {
         }
 
         /* ════════════════════════
-           MOBILE  ≤ 600px
+           MOBILE & TABLET RESPONSIVE
+           Cat is now VISIBLE on all devices
         ════════════════════════ */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
           .product-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
@@ -1051,43 +1049,14 @@ function Home() {
             width: 100%;
             text-align: center;
           }
-          /* Hide cat on small screens so text has full width */
-          .hero-image-wrapper {
-            display: none;
-          }
         }
 
-        /* ════════════════════════
-           TABLET  601px – 900px
-        ════════════════════════ */
-        @media (min-width: 601px) and (max-width: 900px) {
+        @media (max-width: 600px) {
           .product-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 10px;
           }
           .features-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-          }
-          .why-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-          }
-          .reviews-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
-          }
-          .footer-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-          }
-          .brand-header-row {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          .brand-shop-btn {
-            width: 100%;
-            text-align: center;
+            gap: 10px;
           }
         }
       `}</style>
