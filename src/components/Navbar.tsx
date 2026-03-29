@@ -6,9 +6,7 @@ import { getCart } from "../cart";
 import EditProfile from "./EditProfile";
 import "./Navbar.css";
 
-// Images are in the public folder, so use relative path from public
-// Since images are in public folder, you can reference them directly
-const skullLogo = "/orangecatfinals.png"; // Using skullcart.png from public folder
+const skullLogo = "/orangecatfinals.png";
 
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
@@ -18,8 +16,6 @@ export default function Navbar() {
   const [userName, setUserName] = useState<string>("");
   const [userInitials, setUserInitials] = useState<string>("");
   const [showEditProfile, setShowEditProfile] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState<"top" | "bottom">(
     "top"
   );
@@ -64,15 +60,13 @@ export default function Navbar() {
     setCartCount(getCart().length);
   }, []);
 
-  // Function to calculate dropdown position
   const calculateDropdownPosition = () => {
     if (window.innerWidth <= 768) {
       const avatarElement = document.querySelector(".avatar-initials");
       if (avatarElement) {
         const rect = avatarElement.getBoundingClientRect();
         const spaceBelow = window.innerHeight - rect.bottom;
-        const dropdownHeight = 340; // Approximate dropdown height
-
+        const dropdownHeight = 340;
         if (spaceBelow < dropdownHeight) {
           setDropdownPosition("bottom");
         } else {
@@ -82,7 +76,6 @@ export default function Navbar() {
     }
   };
 
-  // Handle avatar click
   const handleAvatarClick = () => {
     if (!dropdownOpen) {
       calculateDropdownPosition();
@@ -90,7 +83,6 @@ export default function Navbar() {
     setDropdownOpen(!dropdownOpen);
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownOpen) {
@@ -106,7 +98,6 @@ export default function Navbar() {
         }
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dropdownOpen]);
@@ -133,35 +124,21 @@ export default function Navbar() {
   const getUserEmail = () =>
     localStorage.getItem("userEmail") || user?.email || "";
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
-      setSearchOpen(false);
-      setSearchQuery("");
-    }
-  };
-
   const goTo = (path: string) => {
     setMobileNavOpen(false);
     navigate(path);
   };
 
-  // Handle About Us click - scroll to about section on home page
   const handleAboutUsClick = () => {
     if (window.location.pathname === "/") {
-      // If already on home page, scroll to about section
       const aboutSection = document.getElementById("about-section");
       if (aboutSection) {
         aboutSection.scrollIntoView({ behavior: "smooth" });
       } else {
-        // If about section doesn't exist, just go to home page
         navigate("/");
       }
     } else {
-      // If on another page, navigate to home page with a hash
       navigate("/#about-section");
-      // After navigation, scroll to about section
       setTimeout(() => {
         const aboutSection = document.getElementById("about-section");
         if (aboutSection) {
@@ -175,58 +152,29 @@ export default function Navbar() {
   return (
     <>
       <header className="navbar">
-        {/* ── LOGO (top-left) with skull image and text ── */}
+        {/* ── LOGO ── */}
         <div className="logo" onClick={() => navigate("/")}>
           <img src={skullLogo} alt="ArmorX Logo" className="skull-image" />
           <span className="logo-text">ArmorX</span>
         </div>
 
-        {/* ── DESKTOP CENTER LINKS (Blog removed) ── */}
+        {/* ── DESKTOP LINKS ── */}
         <nav className="desktop-menu">
           <a onClick={() => navigate("/")}>Home</a>
           <a onClick={() => navigate("/shop")}>Shop</a>
-          <a onClick={() => navigate("/deals")}>Deals</a>
+          <a onClick={() => navigate("/shop")}>Deals</a>
           <a onClick={handleAboutUsClick}>About Us</a>
         </nav>
 
-        {/* ── TOP-RIGHT ACTIONS ── */}
+        {/* ── ACTIONS (search removed) ── */}
         <div className="actions">
-          {/* Search (desktop only) */}
-          <div className={`search-container ${searchOpen ? "expanded" : ""}`}>
-            {!searchOpen ? (
-              <span
-                className="search-icon"
-                onClick={() => setSearchOpen(true)}
-              ></span>
-            ) : (
-              <form onSubmit={handleSearch} className="search-form">
-                <input
-                  type="text"
-                  className="search-input"
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  autoFocus
-                />
-                <button type="submit" className="search-submit"></button>
-                <button
-                  type="button"
-                  className="search-close"
-                  onClick={() => setSearchOpen(false)}
-                >
-                  ✕
-                </button>
-              </form>
-            )}
-          </div>
-
-          {/* Cart icon */}
+          {/* Cart */}
           <div className="cart-icon" onClick={() => navigate("/cart")}>
             🛒
             {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
           </div>
 
-          {/* Profile avatar / Login */}
+          {/* Profile / Login */}
           {user ? (
             <div className="profile">
               <div className="avatar-initials" onClick={handleAvatarClick}>
@@ -261,7 +209,7 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* Hamburger — mobile only */}
+          {/* Hamburger */}
           <button
             className="hamburger"
             onClick={() => setMobileNavOpen(true)}
@@ -274,7 +222,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ── MOBILE SLIDE-IN DRAWER (Blog removed) ── */}
+      {/* ── MOBILE DRAWER ── */}
       {mobileNavOpen && (
         <div
           className="mobile-overlay"
@@ -296,7 +244,7 @@ export default function Navbar() {
         <a className="drawer-link" onClick={() => goTo("/shop")}>
           Shop
         </a>
-        <a className="drawer-link" onClick={() => goTo("/deals")}>
+        <a className="drawer-link" onClick={() => goTo("/shop")}>
           Deals
         </a>
         <a className="drawer-link" onClick={handleAboutUsClick}>
@@ -308,7 +256,6 @@ export default function Navbar() {
             🚪 Logout
           </button>
         )}
-
         {!user && (
           <a className="drawer-link" onClick={() => goTo("/login")}>
             🔑 Login

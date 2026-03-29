@@ -43,7 +43,7 @@ const productList: Product[] = [
     images: ["1.jpg", "2.jpg", "4.jpg"],
     description:
       "High quality wireless earbuds with noise cancellation and fast charging.",
-    category: "Accessories",
+    category: "Wearables",
     rating: 4.5,
     sale: false,
     limitedTimeOffer: true,
@@ -110,7 +110,7 @@ const productList: Product[] = [
     image: "/11.jpg",
     images: ["/watch/1.jpg", "/watch/2.jpg", "/watch/3.jpg"],
     description:
-      "Advanced smartwatch with health tracking, GPS, and 7-day battery life.",
+      "The MacBook Neo (2026) is Apple’s new budget MacBook, designed mainly for students and everyday users—not heavy creators.",
     category: "Laptop",
     rating: 4.2,
     sale: true,
@@ -180,7 +180,7 @@ const productList: Product[] = [
     image: "10.jpg",
     images: ["/laptop/1.jpg", "/laptop/2.jpg", "/laptop/3.jpg"],
     description:
-      "Powerful gaming laptop with RTX graphics, 16GB RAM and high refresh display.",
+      "The Elgato Stream Deck Mk.2 is one of the most popular tools for streamers, YouTubers, and productivity users. Think of it as a shortcut control panel for your PC.",
     category: "Accessories",
     rating: 4.8,
     sale: false,
@@ -251,8 +251,8 @@ const additionalProducts: Product[] = [
     originalPrice: 49999,
     image: "/laptop.png",
     images: [],
-    description: "High-end wireless headphones with noise cancellation",
-    category: "Laptop",
+    description:
+      "The 2026 MacBook Pro is Apple’s most powerful laptop yet, built for professionals, developers, video editors, and heavy users.",
     rating: 4.7,
     sale: true,
     limitedTimeOffer: false,
@@ -268,7 +268,8 @@ const additionalProducts: Product[] = [
     originalPrice: 7999,
     image: "/samsunglaptop.png",
     images: [],
-    description: "Track your fitness goals with this smart band",
+    description:
+      "The Samsung Galaxy Book 4 is a budget-to-midrange laptop designed for students, office work, and everyday use—similar to MacBook Neo but on Windows.",
     category: "Laptop",
     rating: 4.3,
     sale: true,
@@ -286,7 +287,7 @@ const additionalProducts: Product[] = [
     image: "/boatheadphone.png",
     images: [],
     description: "Lightweight ultrabook for professionals",
-    category: "Laptops",
+    category: "Wearables",
     rating: 4.6,
     sale: false,
     limitedTimeOffer: true,

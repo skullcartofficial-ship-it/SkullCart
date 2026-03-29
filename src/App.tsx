@@ -410,7 +410,7 @@ function Home() {
     >
       <Navbar />
 
-      {/* HERO SECTION - FIXED WITH CAT VISIBLE ON MOBILE */}
+      {/* HERO SECTION */}
       <div
         style={{
           position: "relative",
@@ -806,14 +806,19 @@ function Home() {
             {
               name: "Priya Sharma",
               review:
-                "The sensor light is perfect for our hallway. Great quality and price.",
+                "The Apple MacBook Neo 13-inch (2026) is a stylish, affordable laptop with good battery life, but limited power.",
               stars: 5,
+              // ── Replace with your own image path, e.g. "/priya.jpg"
+              // If you don't have a photo, we fall back to a generated avatar
+              image: "/priya.jpg",
             },
             {
               name: "Ravi Kumar",
               review:
-                "Loved the charging cable combo! Very useful and affordable.",
+                "The Elgato Stream Deck MK.2 is a powerful shortcut device that makes streaming and workflows faster and easier, but it’s a bit expensive for casual users.",
               stars: 5,
+              // ── Replace with your own image path, e.g. "/ravi.jpg"
+              image: "/ravi.jpg",
             },
           ].map((review, idx) => (
             <div
@@ -849,13 +854,21 @@ function Home() {
                 }}
               >
                 <img
-                  src="/skullcart.jpg"
+                  src={review.image}
                   alt={review.name}
+                  // If the image file is missing, fall back to an auto-generated avatar
+                  onError={(e) => {
+                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      review.name
+                    )}&background=random&color=fff&size=100`;
+                  }}
                   style={{
-                    width: "50px",
-                    height: "50px",
+                    width: "54px",
+                    height: "54px",
                     borderRadius: "50%",
                     objectFit: "cover",
+                    border: "2px solid #f0f0f0",
+                    flexShrink: 0,
                   }}
                 />
                 <div>
@@ -1027,7 +1040,6 @@ function Home() {
 
         /* ════════════════════════
            MOBILE & TABLET RESPONSIVE
-           Cat is now VISIBLE on all devices
         ════════════════════════ */
         @media (max-width: 768px) {
           .product-grid {
