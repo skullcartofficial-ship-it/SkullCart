@@ -912,7 +912,7 @@ function Home() {
               Social Media
             </h3>
             <a
-              href="https://instagram.com/skullcartofficial"
+              href="https://instagram.com/armorxorginal"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -927,7 +927,7 @@ function Home() {
                 e.currentTarget.style.color = "#ccc";
               }}
             >
-              📷 @skullcartofficial
+              📷 @armorxorginal
             </a>
           </div>
         </div>
